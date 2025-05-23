@@ -1,1 +1,18 @@
 /* Enter your custom styles here */
+.myCustomHeader {
+    color: #050505;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.myTableHeader {
+    color: #050505;
+    font-weight: bold;
+    font-size: 1.0rem;
+}
+
+.myLabelStyle {
+        color: #434343;
+        font-weight: bold;
+        font-size: 0.9rem;
+}

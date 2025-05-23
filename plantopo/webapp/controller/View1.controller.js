@@ -25,7 +25,7 @@ sap.ui.define(
             })
           );
         }
-
+        // 월 콤보박스에 1~12월 항목 추가
         var oMonthComboBox = this.byId("monthComboBox");
         for (var i = 1; i <= 12; i++) {
           oMonthComboBox.addItem(
@@ -74,13 +74,28 @@ sap.ui.define(
             var planOrderData = new JSONModel();
               planOrderData.setData({ planedOrder: aResults });
               this.getView().setModel(planOrderData, "Plan");
-            console.log("성공");
           }.bind(this),
           error: function (oError) {
             MessageToast.show("계획주문 데이터를 불러오지 못했습니다.");
             console.error(oError);
           },
         });
+
+        var onSearch = this.byId("searchButton");
+        onSearch.attachPress(function () {
+          var selectedYear = oComboBox.getSelectedKey();
+          var selectedMonth = oMonthComboBox.getSelectedKey();
+
+          if (selectedYear && selectedMonth) {
+				aFilter.push(new Filter("YearAndMonth", FilterOperator.Contains, selectedYear + selectedMonth));
+          } else {
+            MessageToast.show("연도와 월을 선택하세요.");
+          }
+        }, this);
+
+
+
+
       },
     });
   }

@@ -7,9 +7,14 @@
         <l:Splitter>
             <VBox>
                 <Panel width="auto" class="sapUiSmallMarginBottom">
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="조회 조건" level="H3" class="myCustomHeader"/>
+                        </Toolbar>
+                    </headerToolbar>
                     <!-- 조회 연도와 ComboBox를 묶음 -->
                     <HBox width="100%" alignItems="Center">
-                        <Label text="연도" design= "Bold" />
+                        <Label text="연도 :" class="myLabelStyle"/>
                         <ComboBox id="yearComboBox" width="120px">
                             <layoutData>
                                 <FlexItemData styleClass="sapUiSmallMarginBegin" />
@@ -17,7 +22,7 @@
                         </ComboBox>
                         <!-- 조회 버튼 -->
 
-                        <Label text="월" design="Bold">
+                        <Label text="월 :" class="myLabelStyle">
                             <layoutData>
                                 <FlexItemData styleClass="sapUiSmallMarginBegin" />
                             </layoutData>
@@ -30,47 +35,51 @@
 
                         <ToolbarSpacer/>
                         <!-- Search 버튼 -->
-                        <Button text="Search" type="Emphasized" icon="sap-icon://search" press="onSearch">
+                        <Button id="searchButton" text="Search" type="Emphasized" icon="sap-icon://search" press="onSearch">
                             <layoutData>
                                 <FlexItemData styleClass="sapUiSmallMarginBegin" />
                             </layoutData>
                         </Button>
-
                     </HBox>
                 </Panel>
-                <Table id="tab1" items = "{Plan>/planedOrder}" headerText="계획 주문" mode="SingleSelectMaster">
+                <Table id="tab1" width="100%" items = "{Plan>/planedOrder}" mode="SingleSelectMaster" itemPress="openCalendar">
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="계획 주문" class="myTableHeader"/>
+                        </Toolbar>
+                    </headerToolbar>
                     <columns>
-                        <Column>
+                        <Column width="15%">
                             <header>
                                 <Label text = "계획주문 ID"/>
                             </header>
                         </Column>
-                        <Column>
+                        <Column  width="20%">
                             <header>
-                                <Label text = "SOP ID"/>
+                                <Label text = "생산 운영 계획 ID"/>
                             </header>
                         </Column>
-                        <Column>
+                        <Column width="20%">
                             <header>
                                 <Label text = "자재 번호"/>
                             </header>
                         </Column>
-                        <Column>
+                        <Column width="15%">
                             <header>
                                 <Label text = "생산 시작일"/>
                             </header>
                         </Column>
-                        <Column>
+                        <Column width="15%">
                             <header>
                                 <Label text = "생산 종료일"/>
                             </header>
                         </Column>
-                        <Column>
+                        <Column width="8%">
                             <header>
                                 <Label text = "수량"/>
                             </header>
                         </Column>
-                        <Column>
+                        <Column width="7%">
                             <header>
                                 <Label text = "단위"/>
                             </header>
@@ -91,7 +100,7 @@
                     </items>
                 </Table>
                 <layoutData>
-                    <l:SplitterLayoutData size="54%" resizable="false" />
+                    <l:SplitterLayoutData size="50%" resizable="false" />
                 </layoutData>
             </VBox>
             <VBox>
