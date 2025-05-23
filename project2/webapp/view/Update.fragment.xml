@@ -1,0 +1,20 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Dialog id="UpdateDialog" title="{i18n>dialogtitle}" type="Message" state="Information">
+        <content>
+            <HBox>
+                <Label text="항공사명 :" labelFor="DialogInput2" width="100px"/>
+                <Input textAlign="Center" id="DialogInput22" value="{UpdateData>/Carrname}" valueLiveUpdate="true" width="200px" class="sapUiSmallMarginEnd"/>
+                <!-- 시스템에 저장된 객체인 updateData에서 데이터를 가져온다 -->
+            </HBox>
+            <HBox>
+                <Label text="홈페이지 :" labelFor="DialogInput4" width="100px"/>
+                <Input id="DialogInput44" textAlign="Center" value="{UpdateData>/Url}" valueLiveUpdate="true" width="200px" class="sapUiSmallMarginEnd"/>
+            </HBox>
+        </content>
+        <buttons>
+            <Button text="{i18n>ButtonText4}" type="Emphasized" press=".onUpdate"/>
+            <Button text="{i18n>ButtonText5}" press=".onCloseDialog"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

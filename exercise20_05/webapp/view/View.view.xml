@@ -1,0 +1,11 @@
+<mvc:View controllerName="exercise2005.controller.View"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <Label id="label" text="입력하세요" required="true"/>
+            <Input id="MessageInput" value="{/MessageInput}" valueLiveUpdate="true" width="50%"/>
+            <Button id="button" icon="sap-icon://search" text="{i18n>onMessageButtonText}" press=".onPress" class="sapUiSmallMarginEnd"/>
+        </content>
+    </Page>
+</mvc:View>

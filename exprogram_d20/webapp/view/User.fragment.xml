@@ -1,0 +1,31 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:layout="sap.ui.layout"
+    xmlns:core="sap.ui.core">
+    <Dialog id="UserData" title="{i18n>dialogtitle}" type="Message" state="Information">
+        <layout:VerticalLayout>
+            <Label text="회원이름:" required="true"/>
+            <Input id="fname" value="{name}"/>
+            <Label text="생년월일:" required="true"/>
+            <DatePicker id="fdate" 
+            placeholder="YYYY-MM-DD" 
+            displayFormat="yyyy-MM-dd" 
+            value="{fdate}"
+            valueFormat="yyyy-MM-dd" />
+            
+<Label text="성별:" required="true"/>
+<Input id="fgender" value="{gender}"/>
+<Label text="도시:" required="true"/>
+<Input id="fcity" value="{city}"/>
+<Label text="국가코드:" required="true"/>
+<Input id="fcode" value="{code}" placeholder="KR"/>
+<Label text="전화번호:" required="true"/>
+<Input id="fphone" value="{phone}"/>
+<Label text="E-mail:" required="true"/>
+<Input id="fmail" value="{mail}"/>
+</layout:VerticalLayout>
+<buttons>
+<Button id="Save" text="저장" type="Emphasized" press=".onCreate"/>
+<Button id="Close" text="취소" type="Reject" press=".onClose"/>
+</buttons>
+</Dialog>
+</core:FragmentDefinition>

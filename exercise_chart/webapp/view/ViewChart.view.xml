@@ -1,0 +1,47 @@
+<mvc:View controllerName="exercisechart.controller.ViewChart"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
+    <Page id="page" title="{i18n>title}">
+        <content>
+
+            <viz:VizFrame id="VizFrame" height='100%' width="100%" vizType='line'>
+                <viz:dataset>
+                    <viz.data:FlattenedDataset data="{data>/salesData}">
+                        <viz.data:dimensions>
+                            <viz.data:DimensionDefinition name="월" value="{data>month}" />
+                        </viz.data:dimensions>
+                        <viz.data:measures>
+                            <viz.data:MeasureDefinition name="월별 매출" value="{data>sales}" />
+                        </viz.data:measures>
+                    </viz.data:FlattenedDataset>
+                </viz:dataset>
+
+                <viz:feeds>
+                    <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="월별 매출" />
+                    <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="월" />
+                </viz:feeds>
+            </viz:VizFrame>
+
+            <viz:VizFrame id="VizFrame2" height='100%' width="100%" vizType='donut'>
+                <viz:dataset>
+                    <viz.data:FlattenedDataset data="{DonutData>/data}">
+                        <viz.data:dimensions>
+                            <viz.data:DimensionDefinition name="등급" value="{DonutData>category}" />
+                        </viz.data:dimensions>
+                        <viz.data:measures>
+                            <viz.data:MeasureDefinition name="인원" value="{DonutData>value}" />
+                        </viz.data:measures>
+                    </viz.data:FlattenedDataset>
+                </viz:dataset>
+
+                <viz:feeds>
+                    <viz.feeds:FeedItem uid="size" type="Measure" values="인원" />
+                    <viz.feeds:FeedItem uid="color" type="Dimension" values="등급" />
+                </viz:feeds>
+            </viz:VizFrame>
+        </content>
+    </Page>
+</mvc:View>

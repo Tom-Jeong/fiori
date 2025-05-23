@@ -1,0 +1,20 @@
+<mvc:View controllerName="ui5.walkthrough.controller.App"
+   xmlns="sap.m"
+   xmlns:mvc="sap.ui.core.mvc" displayBlock="true">
+   <Shell class="customApp">
+      <App class="myAppDemoWT">
+         <pages>
+            <Page title="{i18n>homePageTitle}" class="sapUiSmallMarginEnd">
+               <content>
+                  <mvc:XMLView viewName="ui5.walkthrough.view.HelloPanel"/>
+                  <mvc:XMLView viewName="ui5.walkthrough.view.InvoiceList"/>
+               </content>
+            </Page>
+         </pages>
+      </App>
+   </Shell>
+
+</mvc:View>
+<!-- mvc:View => View를 선언하는 태그
+     xmls => 라이브러리의 UI 컨트롤을 사용할 수 있도록 선언 xmlns:mvc="sap.ui.core.mvc" => MVC 관련 기능을 위한 네임스페이스.
+     <Text text="Hello World"/> => 기존 Hello World 텍스트를 sap.m.Text 컨트롤로 변경. -->

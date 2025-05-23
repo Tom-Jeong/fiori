@@ -1,0 +1,12 @@
+<mvc:View controllerName="mentoring2.controller.People"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <List id="List1" width="auto" items="{Employee>/Employees}" class="sapUiSmallMargin" mode="SingleSelectMaster" itemPress=".onDialog">
+            <items>
+                <ObjectListItem id="Object" title="{Employee>Name}" type="Detail" detailPress=".onDialog" number="{Employee>Position}" numberUnit="{Employee>Department}">
+                </ObjectListItem>
+            </items>
+        </List> 
+    </Page>
+</mvc:View>

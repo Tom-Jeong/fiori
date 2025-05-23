@@ -1,0 +1,106 @@
+<mvc:View controllerName="sync.dc.pp.plantopo.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:l="sap.ui.layout"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+
+        <l:Splitter>
+            <VBox>
+                <Panel width="auto" class="sapUiSmallMarginBottom">
+                    <!-- 조회 연도와 ComboBox를 묶음 -->
+                    <HBox width="100%" alignItems="Center">
+                        <Label text="연도" design= "Bold" />
+                        <ComboBox id="yearComboBox" width="120px">
+                            <layoutData>
+                                <FlexItemData styleClass="sapUiSmallMarginBegin" />
+                            </layoutData>
+                        </ComboBox>
+                        <!-- 조회 버튼 -->
+
+                        <Label text="월" design="Bold">
+                            <layoutData>
+                                <FlexItemData styleClass="sapUiSmallMarginBegin" />
+                            </layoutData>
+                        </Label>
+                        <ComboBox id="monthComboBox" width="80px">
+                            <layoutData>
+                                <FlexItemData styleClass="sapUiSmallMarginBegin" />
+                            </layoutData>
+                        </ComboBox>
+
+                        <ToolbarSpacer/>
+                        <!-- Search 버튼 -->
+                        <Button text="Search" type="Emphasized" icon="sap-icon://search" press="onSearch">
+                            <layoutData>
+                                <FlexItemData styleClass="sapUiSmallMarginBegin" />
+                            </layoutData>
+                        </Button>
+
+                    </HBox>
+                </Panel>
+                <Table id="tab1" items = "{Plan>/planedOrder}" headerText="계획 주문" mode="SingleSelectMaster">
+                    <columns>
+                        <Column>
+                            <header>
+                                <Label text = "계획주문 ID"/>
+                            </header>
+                        </Column>
+                        <Column>
+                            <header>
+                                <Label text = "SOP ID"/>
+                            </header>
+                        </Column>
+                        <Column>
+                            <header>
+                                <Label text = "자재 번호"/>
+                            </header>
+                        </Column>
+                        <Column>
+                            <header>
+                                <Label text = "생산 시작일"/>
+                            </header>
+                        </Column>
+                        <Column>
+                            <header>
+                                <Label text = "생산 종료일"/>
+                            </header>
+                        </Column>
+                        <Column>
+                            <header>
+                                <Label text = "수량"/>
+                            </header>
+                        </Column>
+                        <Column>
+                            <header>
+                                <Label text = "단위"/>
+                            </header>
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{Plan>PlanId}"/>
+                                <Text text="{Plan>OpId}"/>
+                                <Text text="{Plan>MatId}"/>
+                                <Text text="{Plan>PoSDate}"/>
+                                <Text text="{Plan>PoEDate}"/>
+                                <Text text="{Plan>Qty}"/>
+                                <Text text="{Plan>Uom}"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+                <layoutData>
+                    <l:SplitterLayoutData size="54%" resizable="false" />
+                </layoutData>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:SplitterLayoutData size="auto" />
+                </layoutData>
+            </VBox>
+        </l:Splitter>
+
+    </Page>
+</mvc:View>
+

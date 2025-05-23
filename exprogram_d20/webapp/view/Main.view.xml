@@ -1,0 +1,47 @@
+<mvc:View controllerName="cl4.exprogramd20.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.model.type.Date">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <Table id="table1" items="{Data>/ZTMEMBERSet}" mode="None" class="sapUiSmallMargin" width="auto">
+                <headerToolbar>
+                    <Toolbar>
+                        <ToolbarSpacer/>
+                        <Button icon="sap-icon://employee-pane" text="회원등록" press=".onDialog" type="Attention"/>
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column hAlign="Center">
+                        <Label text="회원번호"/>
+                    </Column>
+                    <Column hAlign="Center">
+                        <Label text="이름" />
+
+                    </Column>
+                    <Column hAlign="Center">
+                        <Label text="생년월일" />
+                    </Column>
+                    <Column hAlign="Center">
+                        <Label text="이메일" />
+                    </Column>
+                </columns>
+                <ColumnListItem type="Navigation" press=".goDetail">
+                    <cells>
+                        <Text text="{Data>Id}" />
+                        <Text text="{Data>Name}" />
+                        <Text text="{
+				        path: 'Data>Bdate',
+				        type: 'sap.ui.model.type.Date',
+                        formatOptions: {
+                        pattern: 'yyyy-MM-dd'
+				            }
+                        }"/>
+                        <Text text="{Data>Email}" />
+                    </cells>
+                </ColumnListItem>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>

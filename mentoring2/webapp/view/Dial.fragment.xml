@@ -1,0 +1,21 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:layout="sap.ui.layout"
+    xmlns:core="sap.ui.core">
+    <Dialog id="Real" title="{i18n>dialogtitle}" type="Message" state="Information">
+        <!-- <VBox> -->
+        <layout:VerticalLayout>
+            <Text text="Name : {FullData>/Name}" />
+            <Text text="Position : {FullData>/Position}" />
+            <Text text="Department : {FullData>/Department}" />
+            <Text text="Status : {FullData>/Status}" />
+            <Text text="Email : {FullData>/Email}" />
+            <Text text="Phone : {FullData>/Phone}" />
+            <Text text="Location : {FullData>/Location}" />
+            <Text text="Salary : {FullData>/Salary}" />
+        </layout:VerticalLayout>
+        <!--  </VBox> -->
+        <buttons>
+            <Button id="Close" text="{i18n>ButtonText}" type="Emphasized" press=".onCloseDialog"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

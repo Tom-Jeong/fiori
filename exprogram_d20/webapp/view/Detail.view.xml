@@ -1,0 +1,45 @@
+<mvc:View controllerName="cl4.exprogramd20.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form">
+<Page id="Detail" title="{i18n>detailtitle}" showNavButton="true" navButtonPress="goBack">
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <f:SimpleForm id="SimpleFormChange" editable="true" layout="ResponsiveGridLayout"
+                labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" 
+                emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" 
+                columnsM="1" singleContainerFullSize="false">
+                    <f:content>
+                        <Label text="회원번호" />
+                        <Text text="{detailModel>/key1}"/>
+                        <Label text="회원이름" />
+                        <Text text="{detailModel>/key2}"/>
+                        <Label text="생년월일" />
+                        <Text text="{detailModel>/key3}"/>
+                        <Label text="성별" />
+                        <Text text="{detailModel>/key4}">
+                        </Text>
+                        <Label text="도시" />
+                        <Text text="{detailModel>/key5}">
+                        </Text>
+                        <Label text="국가코드" />
+                        <Text text="{detailModel>/key6}">
+                        </Text>
+                        <Label text="전화번호" />
+                        <Text text="{detailModel>/key7}">
+                        </Text>
+                        <Label text="E-mail" />
+                        <Text text="{detailModel>/key8}">
+                        </Text>
+                    </f:content>
+                </f:SimpleForm>
+                <f:SimpleForm>
+                <HBox justifyContent="Start">
+                <Button text="메인으로" press="goBack"/>
+                </HBox>
+                </f:SimpleForm>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

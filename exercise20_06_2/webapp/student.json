@@ -1,0 +1,148 @@
+{
+    "student": [
+        {
+            "no": 1,
+            "name": "김동혁",
+            "gender": "남",
+            "birthdate": "2024-09-29"
+        },
+        {
+            "no": 2,
+            "name": "김동현",
+            "gender": "남",
+            "birthdate": "2024-06-11"
+        },
+        {
+            "no": 3,
+            "name": "김찬솔",
+            "gender": "남",
+            "birthdate": "2024-12-05"
+        },
+        {
+            "no": 4,
+            "name": "노유진",
+            "gender": "여",
+            "birthdate": "2024-08-05"
+        },
+        {
+            "no": 5,
+            "name": "박보민",
+            "gender": "여",
+            "birthdate": "2024-05-03"
+        },
+        {
+            "no": 6,
+            "name": "박상홍",
+            "gender": "남",
+            "birthdate": "2024-01-23"
+        },
+        {
+            "no": 7,
+            "name": "박세연",
+            "gender": "여",
+            "birthdate": "2024-01-15"
+        },
+        {
+            "no": 8,
+            "name": "박정언",
+            "gender": "남",
+            "birthdate": "2024-10-13"
+        },
+        {
+            "no": 9,
+            "name": "박준혜",
+            "gender": "여",
+            "birthdate": "2024-05-30"
+        },
+        {
+            "no": 10,
+            "name": "배현빈",
+            "gender": "여",
+            "birthdate": "2024-06-03"
+        },
+        {
+            "no": 11,
+            "name": "서정목",
+            "gender": "남",
+            "birthdate": "2024-07-10"
+        },
+        {
+            "no": 12,
+            "name": "신혜지",
+            "gender": "여",
+            "birthdate": "2024-01-19"
+        },
+        {
+            "no": 13,
+            "name": "오세빈",
+            "gender": "여",
+            "birthdate": "2024-09-16"
+        },
+        {
+            "no": 15,
+            "name": "이승환",
+            "gender": "남",
+            "birthdate": "2024-09-24"
+        },
+        {
+            "no": 16,
+            "name": "이아경",
+            "gender": "여",
+            "birthdate": "2024-10-23"
+        },
+        {
+            "no": 17,
+            "name": "이은채",
+            "gender": "여",
+            "birthdate": "2024-03-02"
+        },
+        {
+            "no": 18,
+            "name": "이주혜",
+            "gender": "여",
+            "birthdate": "2024-03-11"
+        },
+        {
+            "no": 19,
+            "name": "김준태",
+            "gender": "남",
+            "birthdate": "2024-05-18"
+        },
+        {
+            "no": 20,
+            "name": "정상훈",
+            "gender": "남",
+            "birthdate": "2024-12-08"
+        },
+        {
+            "no": 21,
+            "name": "정예람",
+            "gender": "여",
+            "birthdate": "2024-03-10"
+        },
+        {
+            "no": 22,
+            "name": "조경진",
+            "gender": "여",
+            "birthdate": "2024-05-04"
+        },
+        {
+            "no": 23,
+            "name": "최민우",
+            "gender": "남",
+            "birthdate": "2024-01-02"
+        },
+        {
+            "no": 24,
+            "name": "최준혁",
+            "gender": "남",
+            "birthdate": "2024-02-16"
+        },
+        {
+            "no": 25,
+            "name": "허지수",
+            "gender": "여",
+            "birthdate": "2024-01-26"
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+<mvc:View controllerName="exercise20062.controller.View1"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc">
+    <Page id="page" title="{i18n>pageTitle}">
+        <List id="List" headerText="{i18n>title}" class="sapUiResponsiveMargin" width="auto" items="{student>/student}">
+            <items>
+                <ObjectListItem core:require="{
+                        Formatter: 'exercise20062/model/formatter'
+                        }" id="item" title="{student>name}" icon="{= ${student>gender} === '남' ? 'sap-icon://male' : 'sap-icon://female'}" number="{
+                    path: 'student>birthdate',
+                    formatter: 'Formatter.formatDate.bind($controller)'
+                }">
+                    <markers>
+                        <ObjectMarker id="mark" type="{
+                        path: 'student>birthdate',
+                        formatter: 'Formatter.isFutureMonth.bind($controller)'
+                    }"/>
+                    </markers>
+
+                </ObjectListItem>
+            </items>
+        </List>
+    </Page>
+</mvc:View>

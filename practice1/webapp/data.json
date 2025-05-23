@@ -1,0 +1,12 @@
+{
+    "data": [
+        { "Name": "최서윤","class":"CL1", "gender": "남성" },
+        { "Name": "김정인","class":"CL2", "gender": "여성" },
+        { "Name": "양수진","class":"CL3", "gender": "여성" },
+        { "Name": "정광희","class":"CL4", "gender": "남성" },
+        { "Name": "김재하", "class":"CL5","gender": "여성" },
+        { "Name": "전지훈", "class":"CL5","gender": "남성" },
+        { "Name": "추성훈", "class":"CL5","gender": "남성" },
+        { "Name": "김민수", "class":"CL6","gender": "여성" }
+    ]
+}

@@ -1,0 +1,49 @@
+<mvc:View controllerName="project4.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+    <content>
+    <Button text="Detail" press=".goDetail"/>
+    <Table id="mtable" items = "{students>/student}" headerText="학생 명단" mode="None">
+            <columns>
+                <Column>
+                    <header>
+                        <Label text = "No"/>
+                    </header>
+                </Column>
+                <Column>
+                    <header>
+                        <Label text = "Name"/>
+                    </header>
+                </Column>
+                <Column>
+                    <header>
+                        <Label text = "Gender"/>
+                    </header>
+                </Column>
+                <Column>
+                    <header>
+                        <Label text = "BirthDate"/>
+                    </header>
+                </Column>
+                <!-- <Column>
+                    <header>
+                        <Label text = "Detail"/>
+                    </header>
+                </Column> -->
+            </columns>
+            <items>
+                <ColumnListItem type="Detail" detailPress=".goDetail">
+                    <cells>
+                        <Text text="{students>no}"/>
+                        <Text text="{students>name}"/>
+                        <Text text="{students>gender}"/>
+                        <Text text="{students>birthdate}"/>
+                        <!-- <Button type="Success" text="세부정보" press="goDetail"/> -->
+                    </cells>
+                </ColumnListItem>
+            </items>
+    </Table>
+    </content>
+    </Page>
+</mvc:View>

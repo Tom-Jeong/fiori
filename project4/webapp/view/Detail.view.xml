@@ -1,0 +1,35 @@
+<mvc:View controllerName="project4.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form">
+    <Page id="detail" title="{i18n>title}" showNavButton="true" navButtonPress="goBack">
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <f:SimpleForm id="SimpleFormChange" editable="true" layout="ResponsiveGridLayout" title="Information" 
+                labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" 
+                emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" 
+                columnsM="1" singleContainerFullSize="false">
+                    <f:content>
+                        <Label text="No" />
+                        <Text text="{detailModel>/key1}" />
+                        <Label text="Name" />
+                        <Text text="{detailModel>/key2}" />
+                        <Label text="Gender" />
+                        <Text text="{detailModel>/key3}">
+                            <layoutData>
+                                <l:GridData span="XL1 L2 M2 S4" />
+                            </layoutData>
+                        </Text>
+                        <Label text="BirthDate" />
+                        <Text text="{detailModel>/key4}">
+                            <layoutData>
+                                <l:GridData span="XL1 L2 M2 S4" />
+                            </layoutData>
+                        </Text>
+                    </f:content>
+                </f:SimpleForm>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

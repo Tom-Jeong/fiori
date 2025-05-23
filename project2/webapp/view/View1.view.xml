@@ -1,0 +1,65 @@
+<mvc:View xmlns:layout="sap.ui.layout" controllerName="project2.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <VBox> 
+        <Image src="/img/download.png" width="1280px" height="auto"/>
+            <HBox>
+                <Label text="항공사 코드 :" labelFor="Input1" width="200px"/>
+                <Input placeholder="항공사 코드" id="Input1" textAlign="Center" value="{Air>/Carrid}" valueLiveUpdate="true" width="100px" class="sapUiSmallMarginEnd"/>
+                    <Button text="{i18n>ButtonText}" type="Success" press=".onNewData"/>
+            </HBox>
+
+            <HBox>
+                <Label text="항공사명 :" labelFor="Input1" width="100px"/>
+                <Input placeholder="항공사명" textAlign="Center" id="Input2" value="{Air>/Carrname}" valueLiveUpdate="true" width="200px" class="sapUiSmallMarginEnd"/>
+                <Button text="{i18n>ButtonText2}" type="Negative" press=".onDelete"/>
+            </HBox>
+
+            <HBox>
+                <Label text="통화 단위 :" labelFor="Input1" width="200px"/>
+                <Input placeholder="통화 단위" id="Input3" textAlign="Center" value="{Air>/Currcode}" valueLiveUpdate="true" width="100px" class="sapUiSmallMarginEnd"/>
+                <Button text="{i18n>ButtonText3}" type="Emphasized" press=".onDialog"/>
+            </HBox>
+            <HBox>
+                <Label text="홈페이지 :" labelFor="Input1" width="100px"/>
+                <Input placeholder="홈페이지" id="Input4" textAlign="Center" value="{Air>/Url}" valueLiveUpdate="true" width="200px" class="sapUiSmallMarginEnd"/>
+            </HBox>
+        </VBox>
+
+        <Table id="table" items = "{Air>/ZCARR_D20Set}" headerText="Carrier" mode="SingleSelectLeft">
+            <columns>
+                <Column>
+                    <header>
+                        <Label text = "Airline"/>
+                    </header>
+                </Column>
+                <Column>
+                    <header>
+                        <Label text = "Airline Name"/>
+                    </header>
+                </Column>
+                <Column>
+                    <header>
+                        <Label text = "Currency Code"/>
+                    </header>
+                </Column>
+                <Column>
+                    <header>
+                        <Label text = "Home Page"/>
+                    </header>
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <Text text="{Air>Carrid}"/>
+                        <Text text="{Air>Carrname}"/>
+                        <Text text="{Air>Currcode}"/>
+                        <Link text="{Air>Url}" href="{Air>Url}" target="_blank" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </Page>
+</mvc:View>

@@ -1,0 +1,224 @@
+{
+  "Employees": [
+    {
+      "Name": "김준태",
+      "Position": "Software Engineer",
+      "Department": "IT",
+      "Status": "Active",
+      "Email": "xo0518@example.com",
+      "Phone": "123-456-7890",
+      "Location": "New York",
+      "Salary": "$80,000"
+    },
+    {
+      "Name": "서정목",
+      "Position": "HR Manager",
+      "Department": "HR",
+      "Status": "Inactive",
+      "Email": "jungmok@example.com",
+      "Phone": "987-654-3210",
+      "Location": "Los Angeles",
+      "Salary": "$90,000"
+    },
+    {
+      "Name": "이승환",
+      "Position": "Marketing Lead",
+      "Department": "Marketing",
+      "Status": "Active",
+      "Email": "승환@example.com",
+      "Phone": "555-123-4567",
+      "Location": "San Francisco",
+      "Salary": "$95,000"
+    },
+    {
+      "Name": "동현",
+      "Position": "Data Analyst",
+      "Department": "IT",
+      "Status": "Active",
+      "Email": "donghyun@example.com",
+      "Phone": "222-333-4444",
+      "Location": "Chicago",
+      "Salary": "$78,000"
+    },
+    {
+      "Name": "세연",
+      "Position": "UX Designer",
+      "Department": "Design",
+      "Status": "Active",
+      "Email": "seyeon@example.com",
+      "Phone": "111-222-3333",
+      "Location": "Seattle",
+      "Salary": "$85,000"
+    },
+    {
+      "Name": "정언",
+      "Position": "Project Manager",
+      "Department": "Management",
+      "Status": "Active",
+      "Email": "jungeon@example.com",
+      "Phone": "444-555-6666",
+      "Location": "Austin",
+      "Salary": "$100,000"
+    },
+    {
+      "Name": "현빈",
+      "Position": "Software Developer",
+      "Department": "IT",
+      "Status": "Active",
+      "Email": "hyunbin@example.com",
+      "Phone": "777-888-9999",
+      "Location": "Denver",
+      "Salary": "$83,000"
+    },
+    {
+      "Name": "세빈",
+      "Position": "Product Manager",
+      "Department": "Product",
+      "Status": "Active",
+      "Email": "saebin@example.com",
+      "Phone": "333-444-5555",
+      "Location": "Houston",
+      "Salary": "$105,000"
+    },
+    {
+      "Name": "아경",
+      "Position": "Marketing Specialist",
+      "Department": "Marketing",
+      "Status": "Active",
+      "Email": "akyung@example.com",
+      "Phone": "666-777-8888",
+      "Location": "Boston",
+      "Salary": "$82,000"
+    },
+    {
+      "Name": "은채",
+      "Position": "Financial Analyst",
+      "Department": "Finance",
+      "Status": "Active",
+      "Email": "eunchae@example.com",
+      "Phone": "888-999-0000",
+      "Location": "Dallas",
+      "Salary": "$88,000"
+    },
+    {
+      "Name": "상훈",
+      "Position": "Network Engineer",
+      "Department": "IT",
+      "Status": "Inactive",
+      "Email": "sanghoon@example.com",
+      "Phone": "999-000-1111",
+      "Location": "San Diego",
+      "Salary": "$79,000"
+    },
+    {
+      "Name": "민우",
+      "Position": "HR Specialist",
+      "Department": "HR",
+      "Status": "Active",
+      "Email": "minwoo@example.com",
+      "Phone": "123-789-4560",
+      "Location": "Orlando",
+      "Salary": "$87,000"
+    },
+    {
+      "Name": "준혁",
+      "Position": "DevOps Engineer",
+      "Department": "IT",
+      "Status": "Active",
+      "Email": "junhyuk@example.com",
+      "Phone": "456-987-1234",
+      "Location": "Portland",
+      "Salary": "$92,000"
+    },
+    {
+      "Name": "동혁",
+      "Position": "Security Analyst",
+      "Department": "Security",
+      "Status": "Active",
+      "Email": "donghyuk@example.com",
+      "Phone": "321-654-9870",
+      "Location": "Atlanta",
+      "Salary": "$94,000"
+    },
+    {
+      "Name": "찬솔",
+      "Position": "Quality Assurance",
+      "Department": "QA",
+      "Status": "Inactive",
+      "Email": "chansol@example.com",
+      "Phone": "147-258-3690",
+      "Location": "Phoenix",
+      "Salary": "$75,000"
+    },
+    {
+      "Name": "유진",
+      "Position": "Database Administrator",
+      "Department": "IT",
+      "Status": "Active",
+      "Email": "yujin@example.com",
+      "Phone": "963-852-7410",
+      "Location": "Philadelphia",
+      "Salary": "$99,000"
+    },
+    {
+      "Name": "보민",
+      "Position": "Legal Advisor",
+      "Department": "Legal",
+      "Status": "Active",
+      "Email": "bomin@example.com",
+      "Phone": "753-951-4562",
+      "Location": "Nashville",
+      "Salary": "$110,000"
+    },
+    {
+      "Name": "상홍",
+      "Position": "Customer Support",
+      "Department": "Support",
+      "Status": "Active",
+      "Email": "sanghong@example.com",
+      "Phone": "369-258-1470",
+      "Location": "Indianapolis",
+      "Salary": "$68,000"
+    },
+    {
+      "Name": "혜지",
+      "Position": "Operations Manager",
+      "Department": "Operations",
+      "Status": "Active",
+      "Email": "hyeji@example.com",
+      "Phone": "852-963-7410",
+      "Location": "Columbus",
+      "Salary": "$97,000"
+    },
+    {
+      "Name": "주혜",
+      "Position": "Supply Chain Manager",
+      "Department": "Logistics",
+      "Status": "Active",
+      "Email": "juhye@example.com",
+      "Phone": "654-321-9870",
+      "Location": "Charlotte",
+      "Salary": "$101,000"
+    },
+    {
+      "Name": "예람",
+      "Position": "Social Media Manager",
+      "Department": "Marketing",
+      "Status": "Active",
+      "Email": "yeram@example.com",
+      "Phone": "951-753-8524",
+      "Location": "Detroit",
+      "Salary": "$76,000"
+    },
+    {
+      "Name": "지수",
+      "Position": "Technical Writer",
+      "Department": "Documentation",
+      "Status": "Active",
+      "Email": "jisu@example.com",
+      "Phone": "357-951-6542",
+      "Location": "Memphis",
+      "Salary": "$74,000"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:layout="sap.ui.layout"
+    xmlns:core="sap.ui.core">
+    <Dialog id="Info" title="{i18n>dialogtitle}" type="Message" state="Information">
+        <!-- <VBox> -->
+        <layout:VerticalLayout>
+            <Text text="이름 : {Info>/Name}" />
+            <Text text="클래스 : {Info>/class}" />
+            <Text text="성별 : {Info>/gender}" />
+        </layout:VerticalLayout>
+        <!--  </VBox> -->
+        <buttons>
+            <Button id="Close" text="{i18n>ButtonText}" type="Emphasized" press=".onCloseDialog"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

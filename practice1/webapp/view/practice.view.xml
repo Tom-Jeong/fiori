@@ -1,0 +1,66 @@
+<mvc:View xmlns:tnt="sap.tnt" controllerName="practice1.controller.practice"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form">
+    <Page id="page" title="{i18n>title}">
+        <Panel class="sapUiResponsiveMargin" width="auto" headerText="Class">
+            <content>
+                <Toolbar>
+                    <Text text="조회조건"/>
+                    <ToolbarSpacer/>
+                    <Button text="검색" press="onSearch" />
+                    <Button text="차트" press="onChart" />
+                    </Toolbar>
+                    <VBox>
+                    <SearchField width="50%" search=".onFilterInvoices"/>
+                    <Select forceSelection="true" selectedKey="{gender}">
+                        <items>
+                            <core:Item text="전체" key="all"/>
+                            <core:Item text="남성" key="male"/>
+                            <core:Item text="여성" key="Female"/>
+                        </items>
+                    </Select>
+                </VBox>
+            </content>
+        </Panel>
+        <content>
+            <Table id="teacher" items="{Datas>/data}">
+                <columns>
+                    <Column>
+                        <header>
+                            <Label text = "Name"/>
+                        </header>
+                    </Column>
+                    <Column>
+                        <header>
+                            <Label text = "Class"/>
+                        </header>
+                    </Column>
+                    <Column>
+                        <header>
+                            <Label text = "gender"/>
+                        </header>
+                    </Column>
+                    <Column>
+                        <header>
+                            <Label text = "Details"/>
+                        </header>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{Datas>Name}"/>
+                            <Text text="{Datas>class}"/>
+                            <Text text="{Datas>gender}"/>
+                            <Button text="Details" press=".onPress"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+
+        </content>
+    </Page>
+</mvc:View>

@@ -1,0 +1,38 @@
+html[dir="ltr"] .myAppDemoWT .myCustomButton.sapMBtn {
+    margin-right: 0.15rem
+ }
+ 
+ html[dir="rtl"] .myAppDemoWT .myCustomButton.sapMBtn {
+    margin-left: 0.15rem
+ }
+ 
+ .myAppDemoWT .myCustomText {
+    display: inline-block;
+    font-weight: bold;
+ }
+
+ .customApp {
+    background-color: #ADC3EC !important;
+    color: #D6FFDE;
+}
+
+.customPanel {
+    background-color: #6CBFC3 !important;
+    border: 0.5px solid #ccc;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.customToolbar {
+    background-color: #F77B55 !important;
+    color: white !important;
+    padding: 10px;
+    border-radius: 10px 10px 0 0; /* 상단 모서리 둥글게 */
+}
+
+.customBar {
+    background-color: #F77B55 !important;
+    color: white !important;
+    padding: 10px;
+    border-radius: 10px 10px 0 0; /* 상단 모서리 둥글게 */
+}

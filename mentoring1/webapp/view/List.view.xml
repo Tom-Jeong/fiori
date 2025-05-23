@@ -1,0 +1,32 @@
+<mvc:View controllerName="mentoring1.controller.List"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Page id="page" title="{i18n>title}">
+        <List id="List20" class="sapUiResponsiveMargin" width="auto" items="{products>/products}">
+            <headerToolbar>
+                <Toolbar>
+                    <Title text="{i18n>ListTitle}"/>
+                    <ToolbarSpacer/>
+                    <SearchField width="50%" search=".onFilterProduct"/>
+                </Toolbar>
+            </headerToolbar>
+            <items>
+                <ObjectListItem intro="{products>type}" title="{products>name}" number="{
+                    parts: [
+                        'products>price',
+                        'view>/currency'
+                    ],
+                    type: 'sap.ui.model.type.Currency',
+                    formatOptions: {
+                        showMeasure: false
+                    }
+                }" icon="{= ${products>type} === '과일' ? 'sap-icon://nutrition-activity' : 'sap-icon://machine' }" numberUnit="{view>/currency}" numberState="{= ${products>price} > 15000 ? 'Error' : 'Success' }">
+                    <firstStatus>
+                        <ObjectStatus core:require="{Formatter: 'mentoring1/model/formatter'}" text="{path: 'products>price',formatter: 'Formatter.statusText.bind($controller)'}"/>
+                    </firstStatus>
+                </ObjectListItem>
+            </items>
+        </List>
+    </Page>
+</mvc:View>
