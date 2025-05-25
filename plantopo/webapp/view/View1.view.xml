@@ -116,21 +116,18 @@
   <VBox id="qtyInputBox" class="sapUiSmallMarginTop"/>
   <Button text="저장" press="onSaveProductionOrders"/>
 <Button	press="handleRemoveSelection" text="Remove All Selected Dates" />
-<List
-				id="selectedDatesList"
+<List           id="selectedDatesList"
 				class="labelMarginLeft"
 				noDataText="No Dates Selected"
 				headerText="선택 일자"
 				items="{path: '/selectedDates'}">
 <StandardListItem title="{Date}" />
 		</List>
-
   <layoutData>
     <l:SplitterLayoutData size="auto" resizable="false" />
   </layoutData>
 </VBox>
 </l:Splitter>
-
     </Page>
 </mvc:View>
 

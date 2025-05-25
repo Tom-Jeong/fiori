@@ -85,13 +85,13 @@ sap.ui.define(
       },
 
 async openCalendar(oEvent) {
-  const oDetailBox = this.byId("detailBox"); // ✅ 이제 인식됨
+  const oDetailBox = this.byId("detailBox");
   oDetailBox.setVisible(true);
 
   // 나머지 로직 추가 예정 (선택된 행 가져오기, 오더 확인 등)
 },
 
-		handleCalendarSelect(oEvent) {
+handleCalendarSelect(oEvent) {
 			var oCalendar = oEvent.getSource(),
 				aSelectedDates = oCalendar.getSelectedDates(),
 				oData = {
