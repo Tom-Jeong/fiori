@@ -1,11 +1,12 @@
 <mvc:View controllerName="sync.dc.pp.plantopo.controller.View1"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:l="sap.ui.layout"
-    xmlns="sap.m">
+    xmlns="sap.m"
+    xmlns:u="sap.ui.unified">
     <Page id="page" title="{i18n>title}">
 
         <l:Splitter>
-            <VBox>
+            <VBox width="auto">
                 <Panel width="auto" class="sapUiSmallMarginBottom">
                     <headerToolbar>
                         <Toolbar>
@@ -86,7 +87,7 @@
                         </Column>
                     </columns>
                     <items>
-                        <ColumnListItem>
+                        <ColumnListItem type="Active">
                             <cells>
                                 <Text text="{Plan>PlanId}"/>
                                 <Text text="{Plan>OpId}"/>
@@ -103,12 +104,32 @@
                     <l:SplitterLayoutData size="50%" resizable="false" />
                 </layoutData>
             </VBox>
-            <VBox>
-                <layoutData>
-                    <l:SplitterLayoutData size="auto" />
-                </layoutData>
-            </VBox>
-        </l:Splitter>
+<VBox id="detailBox" visible="false">
+  <Panel width="97%">
+<headerToolbar>
+    <Toolbar>
+        <Title text="일자 선택" level="H3" class="myCustomHeader"/>
+    </Toolbar>
+</headerToolbar>
+  <u:Calendar id="calendar" width="100%" showWeekNumbers="false" select="handleCalendarSelect" intervalSelection="false" singleSelection="false" />
+  </Panel>
+  <VBox id="qtyInputBox" class="sapUiSmallMarginTop"/>
+  <Button text="저장" press="onSaveProductionOrders"/>
+<Button	press="handleRemoveSelection" text="Remove All Selected Dates" />
+<List
+				id="selectedDatesList"
+				class="labelMarginLeft"
+				noDataText="No Dates Selected"
+				headerText="선택 일자"
+				items="{path: '/selectedDates'}">
+<StandardListItem title="{Date}" />
+		</List>
+
+  <layoutData>
+    <l:SplitterLayoutData size="auto" resizable="false" />
+  </layoutData>
+</VBox>
+</l:Splitter>
 
     </Page>
 </mvc:View>
