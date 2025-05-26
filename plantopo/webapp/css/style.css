@@ -1,6 +1,6 @@
 /* Enter your custom styles here */
 .myCustomHeader {
-    color: #050505;
+    color: #484848;
     font-weight: bold;
     font-size: 1.3rem;
 }
@@ -13,6 +13,12 @@
 
 .myLabelStyle {
         color: #434343;
+        font-weight: bold;
+        font-size: 0.9rem;
+}
+
+.RemainStyle {
+        color: #0800ff;
         font-weight: bold;
         font-size: 0.9rem;
 }

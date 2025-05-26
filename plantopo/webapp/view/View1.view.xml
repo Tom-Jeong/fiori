@@ -21,7 +21,6 @@
                                 <FlexItemData styleClass="sapUiSmallMarginBegin" />
                             </layoutData>
                         </ComboBox>
-                        <!-- 조회 버튼 -->
 
                         <Label text="월 :" class="myLabelStyle">
                             <layoutData>
@@ -55,7 +54,7 @@
                                 <Label text = "계획주문 ID"/>
                             </header>
                         </Column>
-                        <Column  width="20%">
+                        <Column width="20%">
                             <header>
                                 <Label text = "생산 운영 계획 ID"/>
                             </header>
@@ -104,30 +103,44 @@
                     <l:SplitterLayoutData size="50%" resizable="false" />
                 </layoutData>
             </VBox>
-<VBox id="detailBox" visible="false">
-  <Panel width="97%">
-<headerToolbar>
-    <Toolbar>
-        <Title text="일자 선택" level="H3" class="myCustomHeader"/>
-    </Toolbar>
-</headerToolbar>
-  <u:Calendar id="calendar" width="100%" showWeekNumbers="false" select="handleCalendarSelect" intervalSelection="false" singleSelection="false" />
-  </Panel>
-  <VBox id="qtyInputBox" class="sapUiSmallMarginTop"/>
-  <Button text="저장" press="onSaveProductionOrders"/>
-<Button	press="handleRemoveSelection" text="Remove All Selected Dates" />
-<List           id="selectedDatesList"
-				class="labelMarginLeft"
-				noDataText="No Dates Selected"
-				headerText="선택 일자"
-				items="{path: '/selectedDates'}">
-<StandardListItem title="{Date}" />
-		</List>
-  <layoutData>
-    <l:SplitterLayoutData size="auto" resizable="false" />
-  </layoutData>
-</VBox>
-</l:Splitter>
+            <VBox id="detailBox" visible="true">
+                <Panel width="97%">
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="일정 선택" level="H2" class="myCustomHeader"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <u:Calendar id="calendar" width="100%" showWeekNumbers="false" select="handleCalendarSelect" intervalSelection="false" singleSelection="false" />
+                    <Button press="handleRemoveSelection" text="선택한 일자 초기화" />
+                </Panel>
+                <Panel width="97%" class="sapUiSmallMarginTop sapUiTinyMarginBottom">
+                    <HBox alignItems="Center" justifyContent="SpaceBetween">
+                        <Label text="계획 수량 : {FullData>/Qty} (EA)" class="myLabelStyle"/>
+                        <Label text="남은 수량 : {FullData>/RemainingQty} (EA)" class="RemainStyle"/>
+                        <HBox alignItems="Center">
+                        <Button text="확정" press="onSave" type="Emphasized" class="sapUiSmallMarginBegin"/>
+                        <Button text="수정" press="onChange"/>
+                        <Button icon="sap-icon://save" text="생산 오더 생성" press="onSaveProductionOrders" type="Success" class="sapUiTinyMarginBegin"/>
+                        </HBox>
+                    </HBox>
+                </Panel>
+                <List id="selectedDatesList" class="labelMarginLeft" width="97%" noDataText="No Dates Selected" items="{path: '/selectedDates'}">
+                    <CustomListItem>
+                        <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiSmallMarginBegin">
+                            <Text text="{Date}" class="myLabelStyle"/>
+                            <HBox alignItems="Center">
+                                <Label text="수량 :" class="sapUiTinyMarginEnd" />
+                                <Input value="{Qty}" width="50px" type="Number" class="sapUiMediumMarginEnd" editable="{= ${Editable} === true }"/>
+                                <Button icon="sap-icon://delete" type="Negative" press="onDelete" />
+                            </HBox>
+                        </HBox>
+                    </CustomListItem>
+                </List>
+                <layoutData>
+                    <l:SplitterLayoutData size="auto" resizable="false" />
+                </layoutData>
+            </VBox>
+        </l:Splitter>
     </Page>
 </mvc:View>
 
