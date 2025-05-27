@@ -104,30 +104,48 @@
                 </layoutData>
             </VBox>
             <VBox id="detailBox" visible="true">
+                <!-- <Panel width="97%" class="sapUiSmallMarginBottom">
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="기본 정보" level="H1" class="myCustomHeader"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <HBox alignItems="Center">
+                        <HBox width="50%" alignItems="Center" justifyContent="Start">
+                            <Label text="계획 주문 ID :" class="myLabelStyle"/>
+                            <Text text=" {FullData>/PlanId}" class="myTextStyle"/>
+                        </HBox>
+                        <HBox width="50%" alignItems="Center" justifyContent="Start">
+                            <Label text="자재 번호 :" class="myLabelStyle"/>
+                            <Text text=" {FullData>/MatId}" class="myTextStyle"/>
+                        </HBox>
+                    </HBox>
+                </Panel> -->
                 <Panel width="97%">
                     <headerToolbar>
                         <Toolbar>
-                            <Title text="일정 선택" level="H2" class="myCustomHeader"/>
+                            <Title text="생산 일정 선택 ({FullData>/PoSDate} ~ {FullData>/PoEDate})" level="H2" class="myCustomHeader"/>
                         </Toolbar>
                     </headerToolbar>
                     <u:Calendar id="calendar" width="100%" showWeekNumbers="false" select="handleCalendarSelect" intervalSelection="false" singleSelection="false" />
-                    <Button press="handleRemoveSelection" text="선택한 일자 초기화" />
+                    <Button press="handleRemoveSelection" text="선택 일자 초기화"/>
                 </Panel>
                 <Panel width="97%" class="sapUiSmallMarginTop sapUiTinyMarginBottom">
                     <HBox alignItems="Center" justifyContent="SpaceBetween">
-                        <Label text="계획 수량 : {FullData>/Qty} (EA)" class="myLabelStyle"/>
-                        <Label text="남은 수량 : {FullData>/RemainingQty} (EA)" class="RemainStyle"/>
+                        <Label text="계획 수량 : {FullData>/Qty} [EA]" class="myLabelStyle"/>
+                        <Label text="남은 수량 : {FullData>/RemainingQty} [EA]" class="RemainStyle"/>
                         <HBox alignItems="Center">
-                        <Button text="확정" press="onSave" type="Emphasized" class="sapUiSmallMarginBegin"/>
-                        <Button text="수정" press="onChange"/>
-                        <Button icon="sap-icon://save" text="생산 오더 생성" press="onSaveProductionOrders" type="Success" class="sapUiTinyMarginBegin"/>
+                            <Button text="확정" press="onSave" type="Emphasized" class="sapUiSmallMarginBegin"/>
+                            <Button text="수정" press="onChange"/>
+                            <Button icon="sap-icon://save" text="생산 오더 생성" press="onSaveProductionOrders" type="Success" class="sapUiTinyMarginBegin"/>
                         </HBox>
                     </HBox>
                 </Panel>
                 <List id="selectedDatesList" class="labelMarginLeft" width="97%" noDataText="No Dates Selected" items="{path: '/selectedDates'}">
                     <CustomListItem>
                         <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiSmallMarginBegin">
-                            <Text text="{Date}" class="myLabelStyle"/>
+                            <Label text="생산 일자" class="myLabelStyle"/>
+                            <Label text="{Date}" class="myLabelStyle"/>
                             <HBox alignItems="Center">
                                 <Label text="수량 :" class="sapUiTinyMarginEnd" />
                                 <Input value="{Qty}" width="50px" type="Number" class="sapUiMediumMarginEnd" editable="{= ${Editable} === true }"/>

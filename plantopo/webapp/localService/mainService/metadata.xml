@@ -13,6 +13,7 @@
                 <Property Name="PoEDate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="생산종료일" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Qty" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unicode="false" sap:unit="Uom" sap:label="수량" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Uom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="단위" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="Po_Status" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="계획주문 상태" sap:creatable="false" sap:updatable="true" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
             <EntityType Name="ZDCT_PP040" sap:content-version="1">
                 <Key>
@@ -27,7 +28,7 @@
                 <Property Name="PoStatus" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="생산 오더 상태" sap:creatable="true" sap:updatable="false" sap:sortable="false" sap:filterable="true"/>
             </EntityType>
             <EntityContainer Name="ZDCPP_GW_001_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
-                <EntitySet Name="ZDCT_PP030Set" EntityType="ZDCPP_GW_001_SRV.ZDCT_PP030" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ZDCT_PP030Set" EntityType="ZDCPP_GW_001_SRV.ZDCT_PP030" sap:creatable="false" sap:updatable="true" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="ZDCT_PP040Set" EntityType="ZDCPP_GW_001_SRV.ZDCT_PP040" sap:creatable="true" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
             </EntityContainer>
             <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>

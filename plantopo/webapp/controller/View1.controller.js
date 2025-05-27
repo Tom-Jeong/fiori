@@ -13,38 +13,44 @@ sap.ui.define(
         this.oFormatYyyymmdd = sap.ui.core.format.DateFormat.getDateInstance({
           pattern: "yyyy-MM-dd",
         });
+
         this.oModel = new JSONModel({ selectedDates: [] });
         this.getView().setModel(this.oModel);
 
-        var oComboBox = this.byId("yearComboBox");
+        // 계획/남은 수량은 빈값으로 초기화
+        this.getView().setModel(
+          new JSONModel({
+            PlanId: "",
+            MatId: "",
+            Qty: "0",
+            Uom: "",
+            RemainingQty: "0",
+            PoSDate: "0000-00-00",
+            PoEDate: "0000-00-00",
+          }),
+          "FullData"
+        );
 
-        // 현재 연도 및 범위 설정
-        var currentYear = new Date().getFullYear();
-        var startYear = currentYear - 5; // 20년 전부터 현재 연도까지
+        const oYear = this.byId("yearComboBox");
+        const oMonth = this.byId("monthComboBox");
 
-        // 연도 항목 동적으로 추가
-        for (var year = startYear; year <= currentYear; year++) {
-          oComboBox.addItem(
+        const currentYear = new Date().getFullYear();
+        for (let y = currentYear - 5; y <= currentYear; y++) {
+          oYear.addItem(new sap.ui.core.Item({ key: y, text: y.toString() }));
+        }
+
+        for (let m = 1; m <= 12; m++) {
+          oMonth.addItem(
             new sap.ui.core.Item({
-              key: year.toString(),
-              text: year.toString(),
+              key: m.toString(),
+              text: m + "월",
             })
           );
         }
-        // 월 콤보박스에 1~12월 항목 추가
-        var oMonthComboBox = this.byId("monthComboBox");
-        for (var i = 1; i <= 12; i++) {
-          oMonthComboBox.addItem(
-            new sap.ui.core.Item({
-              key: i.toString(),
-              text: i + "월",
-            })
-          );
-        }
 
-        // OData 모델 생성 및 설정
-        var oPlanModel = new ODataModel("/sap/opu/odata/sap/ZDCPP_GW_001_SRV/");
-        // View에 모델 설정
+        const oPlanModel = new ODataModel(
+          "/sap/opu/odata/sap/ZDCPP_GW_001_SRV/"
+        );
         this.getView().setModel(oPlanModel, "Plan1");
       },
 
@@ -58,50 +64,34 @@ sap.ui.define(
           return;
         }
 
-        // 전체 데이터 가져오기
         oModel.read("/ZDCT_PP030Set", {
           success: (oData) => {
-            const aAll = oData.results;
+            const start = new Date(`${sYear}-${sMonth.padStart(2, "0")}-01`);
+            const end = new Date(start.getFullYear(), start.getMonth() + 1, 0);
 
-            // 생산 시작일 기준 필터링
-            const startDate = new Date(
-              `${sYear}-${sMonth.padStart(2, "0")}-01`
-            );
-            const endDate = new Date(
-              startDate.getFullYear(),
-              startDate.getMonth() + 1,
-              0
-            );
-
-            const aFiltered = aAll.filter((item) => {
+            const aFiltered = oData.results.filter((item) => {
               const d = new Date(item.PoSDate);
-              return d >= startDate && d <= endDate;
+              return d >= start && d <= end;
             });
 
-            // 날짜 포맷 보정
             aFiltered.forEach((item) => {
-              const day1 = new Date(item.PoSDate);
-              item.PoSDate = `${day1.getFullYear()}-${(day1.getMonth() + 1)
+              const s = new Date(item.PoSDate);
+              const e = new Date(item.PoEDate);
+              item.PoSDate = `${s.getFullYear()}-${(s.getMonth() + 1)
                 .toString()
-                .padStart(2, "0")}-${day1
-                .getDate()
+                .padStart(2, "0")}-${s.getDate().toString().padStart(2, "0")}`;
+              item.PoEDate = `${e.getFullYear()}-${(e.getMonth() + 1)
                 .toString()
-                .padStart(2, "0")}`;
-
-              const day2 = new Date(item.PoEDate);
-              item.PoEDate = `${day2.getFullYear()}-${(day2.getMonth() + 1)
-                .toString()
-                .padStart(2, "0")}-${day2
-                .getDate()
-                .toString()
-                .padStart(2, "0")}`;
+                .padStart(2, "0")}-${e.getDate().toString().padStart(2, "0")}`;
             });
 
-            const planOrderData = new JSONModel({ planedOrder: aFiltered });
-            this.getView().setModel(planOrderData, "Plan");
+            this.getView().setModel(
+              new JSONModel({ planedOrder: aFiltered }),
+              "Plan"
+            );
 
             if (aFiltered.length === 0) {
-              sap.m.MessageBox.information(
+              MessageToast.show(
                 "선택한 연도와 월에 해당하는 계획주문이 없습니다."
               );
             }
@@ -114,205 +104,302 @@ sap.ui.define(
       },
 
       async openCalendar(oEvent) {
-        const oItem = oEvent.getParameter("listItem");
-        const oCtx = oItem.getBindingContext("Plan");
+        this.handleRemoveSelection();
+
+        const oCtx = oEvent.getParameter("listItem").getBindingContext("Plan");
         const oData = oCtx.getObject();
 
-        // 선택된 계획 주문 데이터를 별도 모델로 등록
-        const oFullDataModel = new JSONModel(oData);
-        oFullDataModel.setProperty("/RemainingQty", oData.Qty); // 초기 남은 수량 = 전체 수량
-        this.getView().setModel(oFullDataModel, "FullData");
+        // FullData 모델 세팅
+        const oFullModel = this.getView().getModel("FullData");
+        oFullModel.setData({
+          PlanId: oData.PlanId,
+          MatId: oData.MatId,
+          Uom: oData.Uom,
+          Qty: oData.Qty,
+          RemainingQty: oData.Qty,
+          PoSDate: oData.PoSDate,
+          PoEDate: oData.PoEDate,
+        });
 
+        // 캘린더 준비
         const oCalendar = this.byId("calendar");
-        const oStartDate = new Date(oData.PoSDate); // "yyyy-MM-dd" 형식일 경우 자동 파싱됨
-
         oCalendar.removeAllSelectedDates();
-        oCalendar.focusDate(oStartDate);
+        oCalendar.destroySpecialDates();
+
+        // 캘린더 포커스 (생산 시작일)
+        const oStartDate = new Date(oData.PoSDate);
+        const oEndDate = new Date(oData.PoEDate);
+        oCalendar.focusDate(new Date(oStartDate));
+
+        // 생산오더 OData 조회 (PlanId + ProdDate between 시작~종료)
+        const oModel = this.getView().getModel("Plan1");
+        const sPlanId = oData.PlanId;
+        const sPoS = oStartDate.toISOString().split("T")[0] + "T00:00:00";
+        const sPoE = oEndDate.toISOString().split("T")[0] + "T23:59:59";
+
+        // 최대 생산량
+        const MAX_QTY = 50; // 필요시 변경
+
+        // 비동기 생산오더 데이터 조회
+        await new Promise((resolve, reject) => {
+          oModel.read("/ZDCT_PP040Set", {
+            filters: [
+              new sap.ui.model.Filter("PlanId", "EQ", sPlanId),
+              new sap.ui.model.Filter("ProdDate", "GE", sPoS),
+              new sap.ui.model.Filter("ProdDate", "LE", sPoE),
+            ],
+            success: (oData2) => {
+              // 날짜별 생산량 집계
+              const dateMap = {};
+              oData2.results.forEach((row) => {
+                const d = new Date(row.ProdDate);
+                // yyyy-mm-dd만 뽑기
+                const key = d.toISOString().split("T")[0];
+                dateMap[key] = (dateMap[key] || 0) + Number(row.Qty || 0);
+              });
+
+              // 시작~종료일 루프
+              for (
+                let d = new Date(
+                  oStartDate.getFullYear(),
+                  oStartDate.getMonth(),
+                  oStartDate.getDate()
+                );
+                d <= oEndDate;
+                d.setDate(d.getDate() + 1)
+              ) {
+                // 날짜 스트링 (yyyy-mm-dd)
+                const sKey = d.toISOString().split("T")[0];
+                const qty = dateMap[sKey] || 0;
+
+                // 회색처리: 최대수량 도달
+                if (qty >= MAX_QTY) {
+                  oCalendar.addSpecialDate(
+                    new sap.ui.unified.DateTypeRange({
+                      startDate: new Date(sKey),
+                      type: "NonWorking",
+                      tooltip: "최대 생산량 도달",
+                    })
+                  );
+                }
+                // 색 처리: 생산오더 일부 존재 (이 부분은 디자인/기획에 따라 옵션)
+                else if (qty > 0) {
+                  oCalendar.addSpecialDate(
+                    new sap.ui.unified.DateTypeRange({
+                      startDate: new Date(sKey),
+                      type: "Type08",
+                      tooltip: `가능 수량 : ${MAX_QTY - qty}개`,
+                    })
+                  );
+                }
+              }
+              this.aProdOrders = oData2.results.map((row) => ({
+                PlanId: row.PlanId,
+                ProdDate: this.oFormatYyyymmdd.format(new Date(row.ProdDate)),
+                Qty: Number(row.Qty),
+              }));
+              resolve();
+            },
+            error: (err) => {
+              MessageToast.show("생산오더 데이터를 읽지 못했습니다.");
+              reject(err);
+            },
+          });
+        });
       },
 
       handleCalendarSelect(oEvent) {
         const oFullData = this.getView().getModel("FullData");
 
-        //계획주문을 먼저 선택하지 않으면 차단
         if (!oFullData || !oFullData.getProperty("/PlanId")) {
           MessageToast.show("먼저 계획주문을 선택해주세요.");
-          this.byId("calendar").removeAllSelectedDates(); // 잘못된 선택 제거
+          this.byId("calendar").removeAllSelectedDates();
           return;
         }
-        var oCalendar = oEvent.getSource(),
-          aSelectedDates = oCalendar.getSelectedDates(),
-          oData = {
-            selectedDates: [],
-          },
-          oDate,
-          i;
-        if (aSelectedDates.length > 0) {
-          for (i = 0; i < aSelectedDates.length; i++) {
-            oDate = aSelectedDates[i].getStartDate();
-            oData.selectedDates.push({
-              Date: this.oFormatYyyymmdd.format(oDate),
-              Qty: "",
-              Editable: true, // 필드 활성 상태
-            });
+
+        const clearTime = (d) =>
+          new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        const startDate = clearTime(
+          new Date(oFullData.getProperty("/PoSDate"))
+        );
+        const endDate = clearTime(new Date(oFullData.getProperty("/PoEDate")));
+
+        const planId = oFullData.getProperty("/PlanId");
+        const planQty = Number(oFullData.getProperty("/Qty"));
+        const aProdOrders = this.aProdOrders || []; // 전체 생산오더
+
+        const oCalendar = oEvent.getSource();
+        const aSelected = oCalendar.getSelectedDates();
+        const aValidDates = [];
+
+        for (let i = 0; i < aSelected.length; i++) {
+          const oDate = clearTime(aSelected[i].getStartDate());
+          const formattedDate = this.oFormatYyyymmdd.format(oDate);
+
+          if (oDate < startDate || oDate > endDate) {
+            oCalendar.removeSelectedDate(aSelected[i]);
+            MessageToast.show(`생산 기간 이외의 날짜는 선택할 수 없습니다.`);
+            continue;
           }
-          this.oModel.setData(oData);
-        } else {
-          this._clearModel();
+
+          // 생산오더에서 해당 날짜에 이미 배정된 수량 계산
+          const usedQty = aProdOrders
+            .filter(
+              (order) =>
+                order.PlanId === planId && order.ProdDate === formattedDate // 포맷 꼭 맞추기!
+            )
+            .reduce((sum, order) => sum + Number(order.Qty), 0);
+
+          const availableQty = planQty - usedQty;
+
+          aValidDates.push({
+            Date: formattedDate,
+            Qty: "",
+            Editable: true,
+            AvailableQty: availableQty, // 남은 가능 수량
+          });
         }
+
+        this.oModel.setProperty("/selectedDates", aValidDates);
       },
 
       handleRemoveSelection() {
         this.byId("calendar").removeAllSelectedDates();
         this.oModel.setProperty("/selectedDates", []);
-        const planQty = this.getView().getModel("FullData").getProperty("/Qty");
-        this.getView()
-          .getModel("FullData")
-          .setProperty("/RemainingQty", planQty);
+        const qty = this.getView().getModel("FullData").getProperty("/Qty");
+        this.getView().getModel("FullData").setProperty("/RemainingQty", qty);
       },
 
       async onSaveProductionOrders() {
         const oView = this.getView();
-        const oModel = oView.getModel("Plan1"); // OData OModel
+        const oModel = oView.getModel("Plan1");
         const aDates = this.oModel.getProperty("/selectedDates") || [];
-        const oFullData = oView.getModel("FullData").getData();
+        const oFull = oView.getModel("FullData").getData();
 
-        // 1. 유효성 검사
-        const hasInvalid = aDates.some(
-          (d) => !d.Qty || parseInt(d.Qty, 10) <= 0
-        );
-        if (hasInvalid) {
+        if (aDates.some((d) => !d.Qty || parseInt(d.Qty) <= 0)) {
           MessageToast.show("모든 수량을 입력하고 저장한 후 생성 가능합니다.");
           return;
         }
 
-        // 2. 순차적으로 생성 요청 전송
-        let successCount = 0;
-        let failCount = 0;
-
+        let success = 0,
+          fail = 0;
         for (const date of aDates) {
           const oEntry = {
-            PlanId: oFullData.PlanId,
-            MatId: oFullData.MatId,
-            Uom: oFullData.Uom,
+            PlanId: oFull.PlanId,
+            MatId: oFull.MatId,
+            Uom: oFull.Uom,
             Qty: date.Qty,
-            ProdDate: `/Date(${new Date(date.Date).getTime()})/`, // OData DateTime 형식
+            ProdDate: `/Date(${new Date(date.Date).getTime()})/`,
           };
 
           try {
             await new Promise((resolve, reject) => {
               oModel.create("/ZDCT_PP040Set", oEntry, {
                 success: () => {
-                  successCount++;
+                  success++;
                   resolve();
                 },
-                error: (oError) => {
-                  console.error("오더 생성 실패:", oError);
-                  failCount++;
+                error: (err) => {
+                  console.error(err);
+                  fail++;
                   reject();
                 },
               });
             });
-          } catch (e) {}
+          } catch {}
         }
-        // 3. 생성 결과 요약
+
         sap.m.MessageBox.information(
-          `생산 오더 : ${successCount}건 성공 / ${failCount}건 실패`
+          `생산 오더 : ${success}건 성공 / ${fail}건 실패`
         );
 
-        // 1. 선택된 날짜 초기화
+        // 계획주문 ID 기준으로 해당 계획주문을 업데이트 요청
+        // 계획주문 ID 기준으로 해당 계획주문을 업데이트 요청
+        oModel.update(
+          `/ZDCT_PP030Set('${oFull.PlanId}')`,
+          { PlanId: oFull.PlanId },
+          {
+            success: () => {
+              MessageToast.show("계획주문 상태가 업데이트되었습니다.");
+              this.onSearch();
+            },
+            error: (oError) => {
+              console.error("계획주문 상태 업데이트 실패", oError);
+              MessageToast.show("계획주문 상태 업데이트 실패");
+            },
+          }
+        );
+
         this.byId("calendar").removeAllSelectedDates();
         this.oModel.setProperty("/selectedDates", []);
-
-        // 2. 남은 수량 초기화
-        const planQty = this.getView().getModel("FullData").getProperty("/Qty");
-        this.getView()
-          .getModel("FullData")
-          .setProperty("/RemainingQty", planQty);
-
-        // 3. 왼쪽 테이블 선택 해제
+        this.getView().getModel("FullData").setData({
+          PoSDate: "0000-00-00",
+          PoEDate: "0000-00-00",
+          Qty: "0",
+          RemainingQty: "0",
+        });
         this.byId("tab1").removeSelections();
       },
 
-      onSave(oEvent) {
-        const oModel = this.oModel;
-        const aDates = oModel.getProperty("/selectedDates") || [];
+      onSave() {
+        const aDates = this.oModel.getProperty("/selectedDates") || [];
+        const planQty = this.getView().getModel("FullData").getProperty("/Qty");
 
-        // 입력 유효성 체크
-        const isInvalid = aDates.some(
-          (item) => !item.Qty || parseInt(item.Qty) < 0
-        );
-        if (isInvalid) {
+        const total = aDates.reduce((sum, d) => sum + parseInt(d.Qty || 0), 0);
+        if (aDates.some((d) => !d.Qty || parseInt(d.Qty) < 0)) {
           MessageToast.show("모든 수량을 올바르게 입력해주세요.");
           return;
         }
-
-        // 수량 합계 계산
-        const totalQty = aDates.reduce(
-          (sum, item) => sum + parseInt(item.Qty || 0),
-          0
-        );
-        const planQty = this.getView().getModel("FullData").getProperty("/Qty");
-        const remaining = planQty - totalQty;
-
-        if (remaining < 0) {
+        if (total > planQty) {
           MessageToast.show("입력 수량이 계획 수량을 초과했습니다.");
           return;
         }
 
-        // 전체 비활성화 처리
-        aDates.forEach((item, idx) => {
-          oModel.setProperty(`/selectedDates/${idx}/Editable`, false);
-        });
-
-        // 남은 수량 반영
+        aDates.forEach((d, i) =>
+          this.oModel.setProperty(`/selectedDates/${i}/Editable`, false)
+        );
         this.getView()
           .getModel("FullData")
-          .setProperty("/RemainingQty", remaining);
+          .setProperty("/RemainingQty", planQty - total);
         MessageToast.show("입력값이 저장되었습니다.");
       },
 
-      onChange(oEvent) {
-        const oModel = this.oModel;
-        const aDates = oModel.getProperty("/selectedDates") || [];
-        aDates.forEach((item, idx) => {
-          oModel.setProperty(`/selectedDates/${idx}/Editable`, true);
-        });
+      onChange() {
+        const aDates = this.oModel.getProperty("/selectedDates") || [];
+        aDates.forEach((_, i) =>
+          this.oModel.setProperty(`/selectedDates/${i}/Editable`, true)
+        );
       },
 
-      onDelete: function (oEvent) {
-        const oItem = oEvent.getSource().getParent().getParent();
-        const sPath = oItem.getBindingContext().getPath();
-        const iIndex = parseInt(sPath.match(/\d+/)[0]);
+      onDelete(oEvent) {
+        const sPath = oEvent
+          .getSource()
+          .getParent()
+          .getParent()
+          .getBindingContext()
+          .getPath();
+        const iIndex = parseInt(sPath.split("/").pop());
 
         const aDates = this.oModel.getProperty("/selectedDates");
-        const deletedDateStr = aDates[iIndex].Date;
+        const removedDate = aDates[iIndex].Date;
 
-        // 1. 캘린더에서 해당 날짜 선택 제거
+        // 달력에서도 제거
         const oCalendar = this.byId("calendar");
-        const aSelectedDates = oCalendar.getSelectedDates();
-        for (let i = 0; i < aSelectedDates.length; i++) {
-          const oCalDate = aSelectedDates[i].getStartDate();
-          const sFormatted = this.oFormatYyyymmdd.format(oCalDate);
-          if (sFormatted === deletedDateStr) {
-            oCalendar.removeSelectedDate(aSelectedDates[i]);
-            break;
+        oCalendar.getSelectedDates().forEach((d, i) => {
+          if (this.oFormatYyyymmdd.format(d.getStartDate()) === removedDate) {
+            oCalendar.removeSelectedDate(d);
           }
-        }
+        });
 
-        // 2. 모델에서 제거
+        // 모델에서 제거
         aDates.splice(iIndex, 1);
         this.oModel.setProperty("/selectedDates", aDates);
 
-        // 3. 남은 수량 다시 계산
         const planQty = this.getView().getModel("FullData").getProperty("/Qty");
-        const totalEnteredQty = aDates.reduce((sum, item) => {
-          const qty = parseInt(item.Qty, 10);
-          return sum + (isNaN(qty) ? 0 : qty);
-        }, 0);
-        const remaining = planQty - totalEnteredQty;
+        const total = aDates.reduce((s, d) => s + parseInt(d.Qty || 0), 0);
         this.getView()
           .getModel("FullData")
-          .setProperty("/RemainingQty", remaining);
+          .setProperty("/RemainingQty", planQty - total);
       },
     });
   }
