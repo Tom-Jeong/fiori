@@ -33,6 +33,7 @@ sap.ui.define(
 
         const oYear = this.byId("yearComboBox");
         const oMonth = this.byId("monthComboBox");
+        const oPlant = this.byId("plantComboBox");
 
         const currentYear = new Date().getFullYear();
         for (let y = currentYear - 5; y <= currentYear; y++) {
@@ -48,6 +49,11 @@ sap.ui.define(
           );
         }
 
+        const plantList = ["P100", "P101"]; // 실제 플랜트 목록으로 교체
+        plantList.forEach((plantId) => {
+          oPlant.addItem(new sap.ui.core.Item({ key: plantId, text: plantId }));
+        });
+
         const oPlanModel = new ODataModel(
           "/sap/opu/odata/sap/ZDCPP_GW_001_SRV/"
         );
@@ -58,9 +64,10 @@ sap.ui.define(
         const oModel = this.getView().getModel("Plan1");
         const sYear = this.byId("yearComboBox").getSelectedKey();
         const sMonth = this.byId("monthComboBox").getSelectedKey();
+        const sPlant = this.byId("plantComboBox").getSelectedKey();
 
-        if (!sYear || !sMonth) {
-          MessageToast.show("연도와 월을 모두 선택해주세요.");
+        if (!sYear || !sMonth || !sPlant) {
+          MessageToast.show("연도, 월, 플랜트를 모두 선택해주세요.");
           return;
         }
 
@@ -71,7 +78,7 @@ sap.ui.define(
 
             const aFiltered = oData.results.filter((item) => {
               const d = new Date(item.PoSDate);
-              return d >= start && d <= end;
+              return d >= start && d <= end && item.PlantId === sPlant;
             });
 
             aFiltered.forEach((item) => {
@@ -92,7 +99,7 @@ sap.ui.define(
 
             if (aFiltered.length === 0) {
               MessageToast.show(
-                "선택한 연도와 월에 해당하는 계획주문이 없습니다."
+                "선택한 연도와 월, 플랜트에 해당하는 계획주문이 없습니다."
               );
             }
           },
@@ -119,104 +126,120 @@ sap.ui.define(
           RemainingQty: oData.Qty,
           PoSDate: oData.PoSDate,
           PoEDate: oData.PoEDate,
+          PlantId: oData.PlantId,
         });
 
-        // 캘린더 준비
         const oCalendar = this.byId("calendar");
         oCalendar.removeAllSelectedDates();
         oCalendar.destroySpecialDates();
 
-        // 캘린더 포커스 (생산 시작일)
+        // 기간
         const oStartDate = new Date(oData.PoSDate);
         const oEndDate = new Date(oData.PoEDate);
         oCalendar.focusDate(new Date(oStartDate));
 
-        // 생산오더 OData 조회 (PlanId + ProdDate between 시작~종료)
+        // 전체 생산오더를 조회 (PlanId 조건 없이)
         const oModel = this.getView().getModel("Plan1");
-        const sPlanId = oData.PlanId;
-        const sPoS = oStartDate.toISOString().split("T")[0] + "T00:00:00";
-        const sPoE = oEndDate.toISOString().split("T")[0] + "T23:59:59";
-
-        // 최대 생산량
-        const MAX_QTY = 50; // 필요시 변경
-
-        // 비동기 생산오더 데이터 조회
-        await new Promise((resolve, reject) => {
+        let oData2 = await new Promise((resolve, reject) => {
           oModel.read("/ZDCT_PP040Set", {
-            filters: [
-              new sap.ui.model.Filter("PlanId", "EQ", sPlanId),
-              new sap.ui.model.Filter("ProdDate", "GE", sPoS),
-              new sap.ui.model.Filter("ProdDate", "LE", sPoE),
-            ],
-            success: (oData2) => {
-              // 날짜별 생산량 집계
-              const dateMap = {};
-              oData2.results.forEach((row) => {
-                const d = new Date(row.ProdDate);
-                // yyyy-mm-dd만 뽑기
-                const key = d.toISOString().split("T")[0];
-                dateMap[key] = (dateMap[key] || 0) + Number(row.Qty || 0);
-              });
-
-              // 시작~종료일 루프
-              for (
-                let d = new Date(
-                  oStartDate.getFullYear(),
-                  oStartDate.getMonth(),
-                  oStartDate.getDate()
-                );
-                d <= oEndDate;
-                d.setDate(d.getDate() + 1)
-              ) {
-                // 날짜 스트링 (yyyy-mm-dd)
-                const sKey = d.toISOString().split("T")[0];
-                const qty = dateMap[sKey] || 0;
-
-                // 회색처리: 최대수량 도달
-                if (qty >= MAX_QTY) {
-                  oCalendar.addSpecialDate(
-                    new sap.ui.unified.DateTypeRange({
-                      startDate: new Date(sKey),
-                      type: "NonWorking",
-                      tooltip: "최대 생산량 도달",
-                    })
-                  );
-                }
-                // 색 처리: 생산오더 일부 존재 (이 부분은 디자인/기획에 따라 옵션)
-                else if (qty > 0) {
-                  oCalendar.addSpecialDate(
-                    new sap.ui.unified.DateTypeRange({
-                      startDate: new Date(sKey),
-                      type: "Type08",
-                      tooltip: `가능 수량 : ${MAX_QTY - qty}개`,
-                    })
-                  );
-                }
-              }
-              this.aProdOrders = oData2.results.map((row) => ({
-                PlanId: row.PlanId,
-                ProdDate: this.oFormatYyyymmdd.format(new Date(row.ProdDate)),
-                Qty: Number(row.Qty),
-              }));
-              resolve();
-            },
+            success: (data) => resolve(data),
             error: (err) => {
               MessageToast.show("생산오더 데이터를 읽지 못했습니다.");
               reject(err);
             },
           });
         });
+
+        // 날짜별 생산량 합계
+        const MAX_QTY = 50;
+        const plantId = oData.PlantId; // 현재 계획주문의 PlantId
+        const dateMap = {};
+        oData2.results.forEach((order) => {
+          if (order.PlantId !== plantId) return; // 해당 플랜트의 오더만 처리
+
+          // 날짜 파싱
+          const prodDate =
+            order.ProdDate instanceof Date
+              ? order.ProdDate
+              : new Date(order.ProdDate);
+          // 기간 내인지 체크
+          if (prodDate >= oStartDate && prodDate <= oEndDate) {
+            // yyyy-MM-dd 문자열 생성
+            const yyyy = prodDate.getFullYear();
+            const mm = String(prodDate.getMonth() + 1).padStart(2, "0");
+            const dd = String(prodDate.getDate()).padStart(2, "0");
+            const dateStr = `${yyyy}-${mm}-${dd}`;
+            dateMap[dateStr] = (dateMap[dateStr] || 0) + Number(order.Qty || 0);
+          }
+        });
+
+        // 기간 내 모든 날짜 루프 돌면서 specialDate 처리
+        for (
+          let d = new Date(
+            oStartDate.getFullYear(),
+            oStartDate.getMonth(),
+            oStartDate.getDate()
+          );
+          d <= oEndDate;
+          d.setDate(d.getDate() + 1)
+        ) {
+          const yyyy = d.getFullYear();
+          const mm = String(d.getMonth() + 1).padStart(2, "0");
+          const dd = String(d.getDate()).padStart(2, "0");
+          const dateStr = `${yyyy}-${mm}-${dd}`;
+          const qty = dateMap[dateStr] || 0;
+
+          if (d.getDay() === 0 || d.getDay() === 6) {
+            oCalendar.addSpecialDate(
+              new sap.ui.unified.DateTypeRange({
+                startDate: new Date(dateStr),
+                type: "NonWorking",
+                tooltip: "주말(선택불가)",
+              })
+            );
+            continue; // 주말은 생산량 상관없이 무조건 NonWorking
+          }
+
+          if (qty >= MAX_QTY) {
+            // 회색(공휴일 스타일, 선택 불가)
+            oCalendar.addSpecialDate(
+              new sap.ui.unified.DateTypeRange({
+                startDate: new Date(dateStr),
+                type: "NonWorking",
+                tooltip: "최대 생산량 도달",
+              })
+            );
+          } else if (qty > 0) {
+            // 색상 표시(예: 파랑), 잔여 수량 툴팁
+            oCalendar.addSpecialDate(
+              new sap.ui.unified.DateTypeRange({
+                startDate: new Date(dateStr),
+                type: "Type08",
+                tooltip: `잔여 가능 수량: ${MAX_QTY - qty}개`,
+              })
+            );
+
+            this.aProdOrders = oData2.results
+              .filter((order) => order.PlantId === plantId)
+              .map((order) => ({
+                PlanId: order.PlanId,
+                ProdDate: this.oFormatYyyymmdd.format(new Date(order.ProdDate)),
+                Qty: Number(order.Qty),
+              }));
+          }
+          // 아무것도 없으면 표시 안 함
+        }
       },
 
       handleCalendarSelect(oEvent) {
         const oFullData = this.getView().getModel("FullData");
-
         if (!oFullData || !oFullData.getProperty("/PlanId")) {
           MessageToast.show("먼저 계획주문을 선택해주세요.");
           this.byId("calendar").removeAllSelectedDates();
           return;
         }
 
+        const MAX_QTY = 50;
         const clearTime = (d) =>
           new Date(d.getFullYear(), d.getMonth(), d.getDate());
         const startDate = clearTime(
@@ -224,13 +247,33 @@ sap.ui.define(
         );
         const endDate = clearTime(new Date(oFullData.getProperty("/PoEDate")));
 
-        const planId = oFullData.getProperty("/PlanId");
-        const planQty = Number(oFullData.getProperty("/Qty"));
-        const aProdOrders = this.aProdOrders || []; // 전체 생산오더
+        // **캘린더에 표시하는 specialDate와 동일하게 전체 생산오더의 날짜별 합계를 만든다**
+        const aProdOrders = this.aProdOrders || [];
+        const dateQtyMap = {};
+        aProdOrders.forEach((order) => {
+          // 반드시 yyyy-MM-dd로 포맷
+          const prodDate = order.ProdDate;
+          dateQtyMap[prodDate] =
+            (dateQtyMap[prodDate] || 0) + Number(order.Qty || 0);
+        });
 
         const oCalendar = oEvent.getSource();
         const aSelected = oCalendar.getSelectedDates();
         const aValidDates = [];
+        const aSpecialDates = oCalendar.getSpecialDates
+          ? oCalendar.getSpecialDates()
+          : [];
+
+        const grayDates = aSpecialDates
+          .filter((s) => s.getType() === "NonWorking")
+          .map((s) => {
+            const d = s.getStartDate();
+            // yyyy-MM-dd 포맷
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
+              2,
+              "0"
+            )}-${String(d.getDate()).padStart(2, "0")}`;
+          });
 
         for (let i = 0; i < aSelected.length; i++) {
           const oDate = clearTime(aSelected[i].getStartDate());
@@ -240,23 +283,23 @@ sap.ui.define(
             oCalendar.removeSelectedDate(aSelected[i]);
             MessageToast.show(`생산 기간 이외의 날짜는 선택할 수 없습니다.`);
             continue;
+          } else if (grayDates.includes(formattedDate)) {
+            oCalendar.removeSelectedDate(aSelected[i]);
+            MessageToast.show(
+              "선택할 수 없는 날짜입니다. (공휴일 또는 최대 생산량 도달)"
+            );
+            continue;
           }
 
-          // 생산오더에서 해당 날짜에 이미 배정된 수량 계산
-          const usedQty = aProdOrders
-            .filter(
-              (order) =>
-                order.PlanId === planId && order.ProdDate === formattedDate // 포맷 꼭 맞추기!
-            )
-            .reduce((sum, order) => sum + Number(order.Qty), 0);
-
-          const availableQty = planQty - usedQty;
+          // **툴팁과 동일하게 전체 오더의 합계를 사용**
+          const usedQty = dateQtyMap[formattedDate] || 0;
+          const availableQty = MAX_QTY - usedQty;
 
           aValidDates.push({
             Date: formattedDate,
             Qty: "",
             Editable: true,
-            AvailableQty: availableQty, // 남은 가능 수량
+            AvailableQty: availableQty,
           });
         }
 
@@ -343,18 +386,36 @@ sap.ui.define(
 
       onSave() {
         const aDates = this.oModel.getProperty("/selectedDates") || [];
-        const planQty = this.getView().getModel("FullData").getProperty("/Qty");
+        const planQty = Number(
+          this.getView().getModel("FullData").getProperty("/Qty")
+        );
 
-        const total = aDates.reduce((sum, d) => sum + parseInt(d.Qty || 0), 0);
-        if (aDates.some((d) => !d.Qty || parseInt(d.Qty) < 0)) {
-          MessageToast.show("모든 수량을 올바르게 입력해주세요.");
-          return;
+        // 1. 날짜별 입력값과 한도수량 초과 체크
+        for (let i = 0; i < aDates.length; i++) {
+          const d = aDates[i];
+          const inputQty = parseInt(d.Qty || 0);
+          const availQty = parseInt(d.AvailableQty || 0);
+
+          if (!d.Qty || inputQty < 0) {
+            MessageToast.show(`[${d.Date}] 수량을 올바르게 입력해주세요.`);
+            return;
+          }
+          if (inputQty > availQty) {
+            MessageToast.show(
+              `[${d.Date}] 입력 수량이 한도수량(${availQty})을(를) 초과했습니다.`
+            );
+            return;
+          }
         }
+
+        // 2. 전체 계획수량 초과 체크
+        const total = aDates.reduce((sum, d) => sum + parseInt(d.Qty || 0), 0);
         if (total > planQty) {
           MessageToast.show("입력 수량이 계획 수량을 초과했습니다.");
           return;
         }
 
+        // 3. 저장 처리
         aDates.forEach((d, i) =>
           this.oModel.setProperty(`/selectedDates/${i}/Editable`, false)
         );
@@ -362,13 +423,6 @@ sap.ui.define(
           .getModel("FullData")
           .setProperty("/RemainingQty", planQty - total);
         MessageToast.show("입력값이 저장되었습니다.");
-      },
-
-      onChange() {
-        const aDates = this.oModel.getProperty("/selectedDates") || [];
-        aDates.forEach((_, i) =>
-          this.oModel.setProperty(`/selectedDates/${i}/Editable`, true)
-        );
       },
 
       onDelete(oEvent) {
