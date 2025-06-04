@@ -36,7 +36,7 @@ sap.ui.define(
         const oPlant = this.byId("plantComboBox");
 
         const currentYear = new Date().getFullYear();
-        for (let y = currentYear - 5; y <= currentYear; y++) {
+        for (let y = currentYear; y <= currentYear + 5; y++) {
           oYear.addItem(new sap.ui.core.Item({ key: y, text: y.toString() }));
         }
 
@@ -319,8 +319,15 @@ sap.ui.define(
         const aDates = this.oModel.getProperty("/selectedDates") || [];
         const oFull = oView.getModel("FullData").getData();
 
-        if (aDates.some((d) => !d.Qty || parseInt(d.Qty) <= 0)) {
-          MessageToast.show("모든 수량을 입력하고 저장한 후 생성 가능합니다.");
+        if (
+          aDates.some((d) => {
+            const qty = parseInt(d.Qty, 10);
+            return !d.Qty || isNaN(qty) || qty <= 0;
+          })
+        ) {
+          MessageToast.show(
+            "모든 수량을 올바르게 입력하고 저장한 후 생성 가능합니다."
+          );
           return;
         }
 
@@ -329,6 +336,7 @@ sap.ui.define(
         for (const date of aDates) {
           const oEntry = {
             PlanId: oFull.PlanId,
+            PlantId: oFull.PlantId,
             MatId: oFull.MatId,
             Uom: oFull.Uom,
             Qty: date.Qty,
@@ -349,14 +357,13 @@ sap.ui.define(
                 },
               });
             });
-          } catch {}
+          } catch { }
         }
 
         sap.m.MessageBox.information(
           `생산 오더 : ${success}건 성공 / ${fail}건 실패`
         );
 
-        // 계획주문 ID 기준으로 해당 계획주문을 업데이트 요청
         // 계획주문 ID 기준으로 해당 계획주문을 업데이트 요청
         oModel.update(
           `/ZDCT_PP030Set('${oFull.PlanId}')`,
@@ -423,6 +430,14 @@ sap.ui.define(
           .getModel("FullData")
           .setProperty("/RemainingQty", planQty - total);
         MessageToast.show("입력값이 저장되었습니다.");
+      },
+
+      onChange: function () {
+        const oModel = this.oModel;
+        const aDates = oModel.getProperty("/selectedDates") || [];
+        aDates.forEach((item, idx) => {
+          oModel.setProperty(`/selectedDates/${idx}/Editable`, true);
+        });
       },
 
       onDelete(oEvent) {

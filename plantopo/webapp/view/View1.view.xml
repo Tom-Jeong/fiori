@@ -6,16 +6,16 @@
     <Page id="page" title="{i18n>title}">
 
         <l:Splitter>
-            <VBox width="auto">
-                <Panel width="auto" class="sapUiSmallMarginBottom">
+            <VBox width="auto" class ="sapUiTinyMarginTop">
+                <Panel width="auto">
                     <headerToolbar>
                         <Toolbar>
-                            <Title text="조회 조건" level="H3" class="myCustomHeader"/>
+                            <Title text="조회 조건" level="H3" class="myCustomHeader" />
                         </Toolbar>
                     </headerToolbar>
                     <!-- 조회 연도와 ComboBox를 묶음 -->
                     <HBox width="100%" alignItems="Center">
-                        <Label text="연도 :" class="myLabelStyle"/>
+                        <Label text="연도 :" class="myLabelStyle" />
                         <ComboBox id="yearComboBox" width="80px">
                             <layoutData>
                                 <FlexItemData styleClass="sapUiSmallMarginBeginEnd" />
@@ -44,7 +44,7 @@
                             </layoutData>
                         </ComboBox>
 
-                        <ToolbarSpacer/>
+                        <ToolbarSpacer />
                         <!-- Search 버튼 -->
                         <Button id="searchButton" text="Search" type="Emphasized" icon="sap-icon://search" press="onSearch">
                             <layoutData>
@@ -53,100 +53,104 @@
                         </Button>
                     </HBox>
                 </Panel>
-                <Table id="tab1" width="100%" items = "{Plan>/planedOrder}" mode="SingleSelectMaster" itemPress="openCalendar">
-                    <headerToolbar>
-                        <Toolbar>
-                            <Title text="계획 주문" class="myTableHeader"/>
-                        </Toolbar>
-                    </headerToolbar>
-                    <columns>
-                        <Column width="15%">
-                            <header>
-                                <Label text = "계획주문 ID"/>
-                            </header>
-                        </Column>
-                        <Column width="20%">
-                            <header>
-                                <Label text = "생산 운영 계획 ID"/>
-                            </header>
-                        </Column>
-                        <Column width="20%">
-                            <header>
-                                <Label text = "자재 번호"/>
-                            </header>
-                        </Column>
-                        <Column width="15%">
-                            <header>
-                                <Label text = "생산 시작일"/>
-                            </header>
-                        </Column>
-                        <Column width="15%">
-                            <header>
-                                <Label text = "생산 종료일"/>
-                            </header>
-                        </Column>
-                        <Column width="8%">
-                            <header>
-                                <Label text = "수량"/>
-                            </header>
-                        </Column>
-                        <Column width="7%">
-                            <header>
-                                <Label text = "단위"/>
-                            </header>
-                        </Column>
-                    </columns>
-                    <items>
-                        <ColumnListItem type="Active">
-                            <cells>
-                                <Text text="{Plan>PlanId}"/>
-                                <Text text="{Plan>OpId}"/>
-                                <Text text="{Plan>MatId}"/>
-                                <Text text="{Plan>PoSDate}"/>
-                                <Text text="{Plan>PoEDate}"/>
-                                <Text text="{Plan>Qty}"/>
-                                <Text text="{Plan>Uom}"/>
-                            </cells>
-                        </ColumnListItem>
-                    </items>
-                </Table>
+                <Panel width="100%" class="sapUiSmallMarginTop">
+                    <Table id="tab1" width="auto" items = "{Plan>/planedOrder}" mode="SingleSelectMaster" itemPress="openCalendar">
+                        <headerToolbar>
+                            <Toolbar>
+                                <Title text="계획 주문" class="myTableHeader" />
+                            </Toolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column width="15%">
+                                <header>
+                                    <Label text = "계획주문 ID" />
+                                </header>
+                            </Column>
+                            <Column width="22%">
+                                <header>
+                                    <Label text = "생산 운영 계획 ID" />
+                                </header>
+                            </Column>
+                            <Column width="18%">
+                                <header>
+                                    <Label text = "자재 번호" />
+                                </header>
+                            </Column>
+                            <Column width="15%">
+                                <header>
+                                    <Label text = "생산 시작일" />
+                                </header>
+                            </Column>
+                            <Column width="15%">
+                                <header>
+                                    <Label text = "생산 종료일" />
+                                </header>
+                            </Column>
+                            <Column width="8%">
+                                <header>
+                                    <Label text = "수량" />
+                                </header>
+                            </Column>
+                            <Column width="8%">
+                                <header>
+                                    <Label text = "단위" />
+                                </header>
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem type="Active">
+                                <cells>
+                                    <Text text="{Plan>PlanId}" />
+                                    <Text text="{Plan>OpId}" />
+                                    <Text text="{Plan>MatId}" />
+                                    <Text text="{Plan>PoSDate}" />
+                                    <Text text="{Plan>PoEDate}" />
+                                    <Text text="{Plan>Qty}" />
+                                    <Text text="{Plan>Uom}" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
                 <layoutData>
                     <l:SplitterLayoutData size="50%" resizable="false" />
                 </layoutData>
             </VBox>
-            <VBox id="detailBox" visible="true">
+            <VBox id="detailBox" visible="true" class="sapUiTinyMarginTop">
                 <Panel width="97%">
                     <headerToolbar>
                         <Toolbar>
-                            <Title text="생산 일정 선택 ({FullData>/PoSDate} ~ {FullData>/PoEDate}) 플랜트 : {FullData>/PlantId}" level="H2" class="myCustomHeader"/>
+                            <Title text="생산 일정 선택 ({FullData>/PoSDate} ~ {FullData>/PoEDate})" level="H2" class="myCustomHeader" />
                         </Toolbar>
                     </headerToolbar>
                     <u:Calendar id="calendar" width="100%" showWeekNumbers="false" select="handleCalendarSelect" intervalSelection="false" singleSelection="false" />
-                    <Button press="handleRemoveSelection" text="선택 일자 초기화"/>
+                    <HBox justifyContent="End">
+                        <Button press="handleRemoveSelection" text="선택 일자 초기화" />
+                    </HBox>
                 </Panel>
-                <Panel width="97%">
+                <Panel width="97%" class="sapUiTinyMarginTop">
                     <HBox alignItems="Center" justifyContent="SpaceBetween">
-                        <Label text="계획 수량 : {FullData>/Qty} [EA]" class="myLabelStyle"/>
-                        <Label text="남은 수량 : {FullData>/RemainingQty} [EA]" class="RemainStyle"/>
+                        <Label text="계획 수량 : {FullData>/Qty} [EA]" class="myLabelStyle" />
+                        <Label text="남은 수량 : {FullData>/RemainingQty} [EA]" class="RemainStyle" />
                         <HBox alignItems="Center">
-                            <Button text="확정" press="onSave" type="Emphasized" class="sapUiSmallMarginBegin"/>
-                            <Button text="수정" press="onChange"/>
-                            <Button icon="sap-icon://save" text="생산 오더 생성" press="onSaveProductionOrders" type="Success" class="sapUiTinyMarginBegin"/>
+                            <Button text="확정" press="onSave" type="Emphasized" class="sapUiSmallMarginBegin" />
+                            <Button text="수정" press="onChange" />
+                            <Button icon="sap-icon://save" text="생산 오더 생성" press="onSaveProductionOrders" type="Success" class="sapUiTinyMarginBegin" enabled="{= ${FullData>/RemainingQty} === 0}" />
                         </HBox>
                     </HBox>
                     <List id="selectedDatesList" class="labelMarginLeft" width="97%" noDataText="No Dates Selected" items="{path: '/selectedDates'}">
                         <headerToolbar>
                             <Toolbar>
-                                <Label text="생산 일자" width="39%"/>
-                                <Label text="일 한도 수량" width="39%"/>
-                                <Label text="수량" width="22%"/>
+                                <Label text="생산 일자" width="39%" />
+                                <Label text="일 한도 수량" width="39%" />
+                                <Label text="수량" width="22%" />
                             </Toolbar>
                         </headerToolbar>
                         <CustomListItem>
                             <HBox alignItems="Center" class="sapUiSmallMarginBeginEnd">
-                                <Label text="{Date}" class="myLabelStyle" width="250px"/>
-                                <Label text="{AvailableQty}" width="170px"/>
-                                <Input value="{Qty}" width="50%" type="Number" class="sapUiMediumMarginEnd" editable="{= ${Editable} === true }"/>
+                                <Label text="{Date}" class="myLabelStyle" width="250px" />
+                                <Label text="{AvailableQty}" width="170px" />
+                                <Input value="{Qty}" width="50%" type="Number" class="sapUiMediumMarginEnd" editable="{= ${Editable} === true }" />
                                 <Button icon="sap-icon://delete" type="Negative" press="onDelete" />
                             </HBox>
                         </CustomListItem>
