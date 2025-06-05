@@ -1,0 +1,12 @@
+/* Enter your custom styles here */
+.myLabelStyle {
+        color: #434343;
+        font-weight: bold;
+        font-size: 0.9rem;
+}
+
+.myCustomHeader {
+    color: #484848;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
