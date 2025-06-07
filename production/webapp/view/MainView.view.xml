@@ -4,47 +4,91 @@
     xmlns:l="sap.ui.layout"
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
-    <FlexBox class="columns" width="100%">
-        <Panel width="auto" class="sapUiSmallMarginTopBottom sapUiTinyMarginBeginEnd">
-            <headerToolbar>
-                <Toolbar>
-                    <Title text="조회 조건" level="H3" class="myCustomHeader"/>
-                </Toolbar>
-            </headerToolbar>
-            <HBox alignItems="Center" width="100%">
-                <Label text="제품 번호 :" class="myLabelStyle"/>
-                <Input id="matInput" value="{Data>/MatId}" width="100px" type="Number" class="sapUiTinyMarginBegin sapUiSmallMarginEnd"/>
+        <FlexBox class="columns" width="100%">
+            <Panel width="auto" class="sapUiSmallMarginTop sapUiTinyMarginBeginEnd">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="조회 조건" level="H3" class="myCustomHeader" />
+                    </Toolbar>
+                </headerToolbar>
+                <HBox alignItems="Center" width="100%">
+                    <Label text="제품 번호 :" class="myLabelStyle" />
+                    <Input id="matInput" value="{Data>/MatId}" width="100px" type="Number" class="sapUiTinyMarginBegin sapUiSmallMarginEnd" />
 
-                <Label text="플랜트 :" class="myLabelStyle sapUiTinyMarginBegin"/>
-                <ComboBox id="plantComboBox" width="100px" items="{PlantList>/results}" selectedKey="{Data>/PlantId}" class="sapUiTinyMarginBegin sapUiSmallMarginEnd">
-                    <core:Item key="{PlantList>PlantId}" text="{PlantList>PlantId}" />
-                </ComboBox>
+                    <Label text="플랜트 :" class="myLabelStyle sapUiTinyMarginBegin" />
+                    <ComboBox id="plantComboBox" width="100px" items="{PlantList>/results}" change=".onPlantChange" selectedKey="{Data>/PlantId}" class="sapUiTinyMarginBegin sapUiSmallMarginEnd">
+                        <core:Item key="{PlantList>PlantId}" text="{PlantList>PlantId}" />
+                    </ComboBox>
 
-                <Label text="라인 :" class="myLabelStyle sapUiTinyMarginBegin"/>
-                <ComboBox id="routeComboBox" width="100px" items="{RouteList>/results}" selectedKey="{Data>/RouteId}" class="sapUiTinyMarginBegin">
-                    <core:Item key="{RouteList>RouteId}" text="{RouteList>RouteId}" />
-                </ComboBox>
+                    <Label text="라인 :" class="myLabelStyle sapUiTinyMarginBegin" />
+                    <ComboBox id="routeComboBox" width="100px" items="{RouteList>/results}" selectedKey="{Data>/RouteId}" class="sapUiTinyMarginBegin">
+                        <core:Item key="{RouteList>RouteId}" text="{RouteList>RouteId}" />
+                    </ComboBox>
 
-                <ToolbarSpacer/>
+                    <ToolbarSpacer />
 
-                <Button id="searchButton" text="Search" type="Emphasized" icon="sap-icon://search" press="onSearch">
-                    <layoutData>
-                        <FlexItemData styleClass="sapUiMediumMarginBegin" />
-                    </layoutData>
-                </Button>
-            </HBox>
-        </Panel>
-        <Panel width="100%" class="sapUiSmallMarginTopBottom sapUiTinyMarginBeginEnd">
-        <HBox>
-        </HBox>
-            <headerToolbar>
-                <Toolbar>
-                    <Title text="환율 정보" level="H3" class="myCustomHeader"/>
-                </Toolbar>
-            </headerToolbar>
-        </Panel>
+                    <Button id="searchButton" text="Search" type="Emphasized" icon="sap-icon://search" press="onSearch">
+                        <layoutData>
+                            <FlexItemData styleClass="sapUiMediumMarginBegin" />
+                        </layoutData>
+                    </Button>
+                </HBox>
+            </Panel>
+            <Panel width="auto" class="sapUiSmallMarginTop sapUiTinyMarginBeginEnd">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="환율 정보 ({FxJPY>/ValfrDate} 기준)" level="H3" class="myCustomHeader sapUiSmallMarginEnd" />
+                    </Toolbar>
+                </headerToolbar>
+                <HBox alignItems="Center">
+                    <Text text="대상통화 :" class="myLabelStyle" />
+                    <Text text="{FxJPY>/TgCurrency}" class="sapUiTinyMarginBegin" />
+                    <Text text="환율 : " class="myLabelStyle sapUiTinyMarginBegin" />
+                    <Text text="{FxJPY>/ExRate}" class="sapUiTinyMarginBegin" />
+                </HBox>
+            </Panel>
+            <Panel width="auto" class="sapUiSmallMarginTop sapUiTinyMarginBeginEnd">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="환율 정보 ({FxCNY>/ValfrDate} 기준)" level="H3" class="myCustomHeader sapUiSmallMarginEnd" />
+                    </Toolbar>
+                </headerToolbar>
+                <HBox alignItems="Center">
+                    <Text text="대상통화 : " class="myLabelStyle" />
+                    <Text text="{FxCNY>/TgCurrency}" class="sapUiTinyMarginBegin" />
+                    <Text text="환율 : " class="myLabelStyle sapUiTinyMarginBegin" />
+                    <Text text="{FxCNY>/ExRate}" class="sapUiTinyMarginBegin" />
+                </HBox>
+            </Panel>
         </FlexBox>
         <FlexBox>
+            <Panel width="auto" class="sapUiSmallMarginTopBottom sapUiTinyMarginBeginEnd">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="단가 계산" level="H3" class="myCustomHeader" />
+                    </Toolbar>
+                </headerToolbar>
+                <VBox>
+                    <HBox alignItems="Center">
+                        <Text text="자재 번호 :" class="myLabelStyle" />
+                        <Text text="{Data>/MatId}" class="sapUiTinyMarginEnd" />
+                        <Text text="원가 :" class="myLabelStyle" />
+                        <Text text="{Calc>/OgPriceFormatted}" />
+                    </HBox>
+                    <HBox alignItems="Center">
+                        <Text text="플랜트 :" class="myLabelStyle" />
+                        <Text text="{Data>/PlantId}" class="sapUiTinyMarginEnd" />
+                        <Text text="라인 :" class="myLabelStyle" />
+                        <Text text="{Data>/RouteId}" class="sapUiTinyMarginEnd" />
+                        <Text text="생산 비 :" class="myLabelStyle" />
+                        <Text text="{Calc>/ProdCostFormatted}" />
+                    </HBox>
+                    <HBox>
+                        <Text text="총 생산 비용 :" class="myLabelStyle" />
+                        <Text text="{Calc>/TotalCostFormatted}" />
+                    </HBox>
+                </VBox>
+            </Panel>
         </FlexBox>
     </Page>
 </mvc:View>
