@@ -4,8 +4,8 @@
     xmlns:l="sap.ui.layout"
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
-        <FlexBox class="columns" width="100%">
-            <Panel width="auto" class="sapUiSmallMarginTop sapUiTinyMarginBeginEnd">
+        <FlexBox width="auto" direction="Row" wrap="Wrap" justifyContent="SpaceBetween">
+            <Panel width="800px" class="sapUiSmallMarginTop sapUiSmallMarginBegin">
                 <headerToolbar>
                     <Toolbar>
                         <Title text="조회 조건" level="H3" class="myCustomHeader" />
@@ -21,9 +21,12 @@
                     </ComboBox>
 
                     <Label text="라인 :" class="myLabelStyle sapUiTinyMarginBegin" />
-                    <ComboBox id="routeComboBox" width="100px" items="{RouteList>/results}" selectedKey="{Data>/RouteId}" class="sapUiTinyMarginBegin">
+                    <ComboBox id="routeComboBox" width="100px" items="{RouteList>/results}" selectedKey="{Data>/RouteId}" class="sapUiTinyMarginBegin sapUiSmallMarginEnd">
                         <core:Item key="{RouteList>RouteId}" text="{RouteList>RouteId}" />
                     </ComboBox>
+
+                    <Label text="수량 :" class="myLabelStyle sapUiTinyMarginBegin" />
+                    <Input id="qtyInput" value="{Data>/Qty}" width="20px" type="Number" class="sapUiTinyMarginBegin sapUiSmallMarginEnd" />
 
                     <ToolbarSpacer />
 
@@ -34,60 +37,82 @@
                     </Button>
                 </HBox>
             </Panel>
-            <Panel width="auto" class="sapUiSmallMarginTop sapUiTinyMarginBeginEnd">
+            <Panel width="auto" class="sapUiSmallMarginTop sapUiSmallMarginBegin">
                 <headerToolbar>
                     <Toolbar>
-                        <Title text="환율 정보 ({FxJPY>/ValfrDate} 기준)" level="H3" class="myCustomHeader sapUiSmallMarginEnd" />
+                        <Title text="환율 정보" level="H3" class="myCustomHeader sapUiSmallMarginEnd" />
+                        <ToolbarSeparator />
+                        <Image src="{FxJPY>/FlagSrc}" width="48px" height="32px" class= "sapUiMediumMarginBegin sapUiTinyMarginEnd" />
                     </Toolbar>
                 </headerToolbar>
-                <HBox alignItems="Center">
-                    <Text text="대상통화 :" class="myLabelStyle" />
-                    <Text text="{FxJPY>/TgCurrency}" class="sapUiTinyMarginBegin" />
-                    <Text text="환율 : " class="myLabelStyle sapUiTinyMarginBegin" />
-                    <Text text="{FxJPY>/ExRate}" class="sapUiTinyMarginBegin" />
-                </HBox>
+                <VBox alignItems="Start">
+                    <Label text="기준 일자 : {FxJPY>/ValfrDate}" class="myLabelStyle" />
+                    <Label text="환율(100엔) : {FxJPY>/ExRate}원" class="myLabelStyle" />
+                </VBox>
             </Panel>
-            <Panel width="auto" class="sapUiSmallMarginTop sapUiTinyMarginBeginEnd">
+            <Panel width="auto" class="sapUiSmallMarginTop sapUiSmallMarginBeginEnd">
                 <headerToolbar>
                     <Toolbar>
-                        <Title text="환율 정보 ({FxCNY>/ValfrDate} 기준)" level="H3" class="myCustomHeader sapUiSmallMarginEnd" />
+                        <Title text="환율 정보" level="H3" class="myCustomHeader sapUiSmallMarginEnd" />
+                        <ToolbarSeparator />
+                        <Image src="{FxCNY>/FlagSrc}" width="48px" height="32px" class= "sapUiMediumMarginBegin sapUiTinyMarginEnd" />
                     </Toolbar>
                 </headerToolbar>
-                <HBox alignItems="Center">
-                    <Text text="대상통화 : " class="myLabelStyle" />
-                    <Text text="{FxCNY>/TgCurrency}" class="sapUiTinyMarginBegin" />
-                    <Text text="환율 : " class="myLabelStyle sapUiTinyMarginBegin" />
-                    <Text text="{FxCNY>/ExRate}" class="sapUiTinyMarginBegin" />
-                </HBox>
+                <VBox alignItems="Start">
+                    <Label text="기준 일자 : {FxCNY>/ValfrDate}" class="myLabelStyle" />
+                    <Label text="환율(100위안) : {FxCNY>/ExRate}원" class="myLabelStyle" />
+                </VBox>
             </Panel>
         </FlexBox>
         <FlexBox>
-            <Panel width="auto" class="sapUiSmallMarginTopBottom sapUiTinyMarginBeginEnd">
+            <Panel width="800px" class="sapUiMediumMarginTopBottom sapUiSmallMarginBeginEnd">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="조회 정보" level="H3" class="myCustomHeader" />
+                    </Toolbar>
+                </headerToolbar>
+                <HBox alignItems="Center">
+                    <HBox width="50%" alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Text text="자재명 :" class="myLabelStyle" />
+                        <Text text="{ResultData>/MatNm}" class="sapUiTinyMarginBegin" />
+                    </HBox>
+                    <HBox width="25%" alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Text text="플랜트 :" class="myLabelStyle" />
+                        <Text text="{ResultData>/PlantId}" class="sapUiTinyMarginBegin" />
+                    </HBox>
+                    <HBox width="25%" alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Text text="생산 라인 :" class="myLabelStyle" />
+                        <Text text="{ResultData>/RouteId}" class="sapUiTinyMarginBegin" />
+                    </HBox>
+                </HBox>
+            </Panel>
+            <Panel width="425px" class="sapUiMediumMarginTop sapUiTinyMarginBegin">
                 <headerToolbar>
                     <Toolbar>
                         <Title text="단가 계산" level="H3" class="myCustomHeader" />
                     </Toolbar>
                 </headerToolbar>
-                <VBox>
-                    <HBox alignItems="Center">
-                        <Text text="자재 번호 :" class="myLabelStyle" />
-                        <Text text="{Data>/MatId}" class="sapUiTinyMarginEnd" />
-                        <Text text="원가 :" class="myLabelStyle" />
-                        <Text text="{Calc>/OgPriceFormatted}" />
-                    </HBox>
-                    <HBox alignItems="Center">
-                        <Text text="플랜트 :" class="myLabelStyle" />
-                        <Text text="{Data>/PlantId}" class="sapUiTinyMarginEnd" />
-                        <Text text="라인 :" class="myLabelStyle" />
-                        <Text text="{Data>/RouteId}" class="sapUiTinyMarginEnd" />
-                        <Text text="생산 비 :" class="myLabelStyle" />
-                        <Text text="{Calc>/ProdCostFormatted}" />
-                    </HBox>
-                    <HBox>
-                        <Text text="총 생산 비용 :" class="myLabelStyle" />
-                        <Text text="{Calc>/TotalCostFormatted}" />
-                    </HBox>
-                </VBox>
+                <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiTinyMarginBottom sapUiLargeMarginBeginEnd">
+                    <Text text="제품 원가 :" class="myLabelStyle sapUiLargeMarginBegin" />
+                    <Text text="{Calc>/OgPriceFormatted}" class="sapUiLargeMarginBegin" />
+                </HBox>
+                <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiLargeMarginBeginEnd">
+                    <Text text="생산 비용 :" class="myLabelStyle textVerticalCenter sapUiLargeMarginBegin" />
+                    <Text text="{Calc>/ProdCostFormatted}" class="sapUiLargeMarginBegin" />
+                </HBox>
+                <HBox class="toolbarLikeLine" />
+                <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiTinyMarginBottom sapUiLargeMarginBeginEnd">
+                    <Text text="총 비용 :" class="mySpecialLabelStyle sapUiLargeMarginBegin" />
+                    <Text text="{Calc>/TotalCostFormatted}" class="sapUiTinyMarginBegin" />
+                </HBox>
+                <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiTinyMarginBottom sapUiLargeMarginBeginEnd" visible="{= ${ResultData>/PlantId} === 'P100' }">
+                    <Text text="엔화 환산 가격 :" class="mySpecialLabelStyle sapUiLargeMarginBegin" />
+                    <Text text="{Calc>/TotalJPYFormatted}" class="sapUiTinyMarginBegin" />
+                </HBox>
+                <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiTinyMarginBottom sapUiLargeMarginBeginEnd" visible="{= ${ResultData>/PlantId} === 'P101' }">
+                    <Text text="원화 환산 가격 :" class="mySpecialLabelStyle sapUiLargeMarginBegin" />
+                    <Text text="{Calc>/TotalKRWFormatted}" class="sapUiTinyMarginBegin" />
+                </HBox>
             </Panel>
         </FlexBox>
     </Page>

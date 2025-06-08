@@ -16,7 +16,7 @@
                     <!-- 조회 연도와 ComboBox를 묶음 -->
                     <HBox width="100%" alignItems="Center">
                         <Label text="연도 :" class="myLabelStyle" />
-                        <ComboBox id="yearComboBox" width="80px">
+                        <ComboBox id="yearComboBox" width="90px">
                             <layoutData>
                                 <FlexItemData styleClass="sapUiSmallMarginBeginEnd" />
                             </layoutData>
@@ -38,7 +38,7 @@
                                 <FlexItemData styleClass="sapUiSmallMarginBegin" />
                             </layoutData>
                         </Label>
-                        <ComboBox id="plantComboBox" width="80px">
+                        <ComboBox id="plantComboBox" width="90px">
                             <layoutData>
                                 <FlexItemData styleClass="sapUiSmallMarginBegin" />
                             </layoutData>
