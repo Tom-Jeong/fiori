@@ -1,0 +1,33 @@
+<mvc:View controllerName="sync.d20.wscdsexam.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:sf="sap.ui.comp.smartfilterbar"
+    xmlns:st="sap.ui.comp.smarttable"
+>
+    <!-- <Page id="page" title="{i18n>title}">
+    </Page> -->
+    <f:DynamicPage id="idDynamicpage"
+    title="{i18n>title}"
+    fitContent="true">
+    
+    <f:header>
+        <!-- 검색조건 -->
+        <f:DynamicPageHeader id="idDynamicPageHeader">
+            <sf:SmartFilterBar id="idSmartFilterBar"
+                entitySet="YD20_Cds_Ws_01"
+                />
+    </f:DynamicPageHeader>
+    </f:header>
+    <f:content>
+        <st:SmartTable 
+            id="idSmartTable"
+            entitySet="YD20_Cds_Ws_01"
+            smartFilterId="idSmartFilterBar"
+            tableType="ResponsiveTable"
+            header="비행 목록"
+            />
+        </f:content>
+    </f:DynamicPage>
+
+</mvc:View>

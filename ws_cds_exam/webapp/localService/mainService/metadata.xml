@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="http://bgissap1.bgissap.co.kr:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://bgissap1.bgissap.co.kr:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://bgissap1.bgissap.co.kr:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://bgissap1.bgissap.co.kr:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://bgissap1.bgissap.co.kr:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://bgissap1.bgissap.co.kr:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://bgissap1.bgissap.co.kr:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://bgissap1.bgissap.co.kr:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://bgissap1.bgissap.co.kr:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://bgissap1.bgissap.co.kr:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="YD20_CDS_WS_01_CDS" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="SCARRType" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="CARRID"/>
+                </Key>
+                <Property Name="CARRID" Type="Edm.String" Nullable="false" MaxLength="3" sap:display-format="UpperCase" sap:label="Airline"/>
+                <Property Name="CARRNAME" Type="Edm.String" MaxLength="20" sap:label="Airline"/>
+                <Property Name="CURRCODE" Type="Edm.String" MaxLength="5" sap:display-format="UpperCase" sap:label="Airline Currency" sap:semantics="currency-code"/>
+                <Property Name="URL" Type="Edm.String" MaxLength="255" sap:label="URL"/>
+            </EntityType>
+            <EntityType Name="YD20_Cds_Ws_01Type" sap:label="특강 Cds View 예제" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Carrid"/>
+                    <PropertyRef Name="Connid"/>
+                    <PropertyRef Name="Fldate"/>
+                </Key>
+                <Property Name="Carrid" Type="Edm.String" Nullable="false" MaxLength="3" sap:display-format="UpperCase" sap:label="Airline" sap:quickinfo="Airline Code"/>
+                <Property Name="Connid" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="NonNegative" sap:label="Connection Number" sap:quickinfo="Flight Connection Number"/>
+                <Property Name="Fldate" Type="Edm.DateTime" Nullable="false" Precision="0" sap:display-format="Date" sap:label="Flight Date" sap:quickinfo="Flight date"/>
+                <Property Name="Price" Type="Edm.Decimal" Precision="16" Scale="3" sap:unit="Currency" sap:label="Airfare"/>
+                <Property Name="Paymentsum" Type="Edm.Decimal" Precision="18" Scale="3" sap:unit="Currency" sap:label="Booking total" sap:quickinfo="Total of current bookings"/>
+                <Property Name="Currency" Type="Edm.String" MaxLength="5" sap:display-format="UpperCase" sap:label="Airline Currency" sap:quickinfo="Local currency of airline" sap:semantics="currency-code"/>
+                <Property Name="Planetype" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Plane Type" sap:quickinfo="Aircraft Type"/>
+                <Property Name="Seatsmax" Type="Edm.Int32" sap:label="Max. Capacity Econ." sap:quickinfo="Maximum Capacity in Economy Class"/>
+                <Property Name="Seatsocc" Type="Edm.Int32" sap:label="Occupied Econ." sap:quickinfo="Occupied Seats in Economy Class"/>
+                <Property Name="SeatsmaxB" Type="Edm.Int32" sap:label="Max. Capacity Bus." sap:quickinfo="Maximum Capacity in Business Class"/>
+                <Property Name="SeatsoccB" Type="Edm.Int32" sap:label="Occupied Bus." sap:quickinfo="Occupied Seats in Business Class"/>
+                <Property Name="SeatsmaxF" Type="Edm.Int32" sap:label="Max. Capacity 1st" sap:quickinfo="Maximum Capacity in First Class"/>
+                <Property Name="SeatsoccF" Type="Edm.Int32" sap:label="Occupied 1st" sap:quickinfo="Occupied Seats in First Class"/>
+                <Property Name="Carrname" Type="Edm.String" MaxLength="20" sap:label="Airline" sap:quickinfo="Airline name"/>
+                <NavigationProperty Name="to_Carrier" Relationship="YD20_CDS_WS_01_CDS.assoc_F62E05D5A71B3C9367F9F70D6A576E2F" FromRole="FromRole_assoc_F62E05D5A71B3C9367F9F70D6A576E2F" ToRole="ToRole_assoc_F62E05D5A71B3C9367F9F70D6A576E2F"/>
+            </EntityType>
+            <Association Name="assoc_F62E05D5A71B3C9367F9F70D6A576E2F" sap:content-version="1">
+                <End Type="YD20_CDS_WS_01_CDS.YD20_Cds_Ws_01Type" Multiplicity="1" Role="FromRole_assoc_F62E05D5A71B3C9367F9F70D6A576E2F"/>
+                <End Type="YD20_CDS_WS_01_CDS.SCARRType" Multiplicity="0..1" Role="ToRole_assoc_F62E05D5A71B3C9367F9F70D6A576E2F"/>
+            </Association>
+            <EntityContainer Name="YD20_CDS_WS_01_CDS_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="SCARR" EntityType="YD20_CDS_WS_01_CDS.SCARRType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="YD20_Cds_Ws_01" EntityType="YD20_CDS_WS_01_CDS.YD20_Cds_Ws_01Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <AssociationSet Name="assoc_F62E05D5A71B3C9367F9F70D6A576E2F" Association="YD20_CDS_WS_01_CDS.assoc_F62E05D5A71B3C9367F9F70D6A576E2F" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="YD20_Cds_Ws_01" Role="FromRole_assoc_F62E05D5A71B3C9367F9F70D6A576E2F"/>
+                    <End EntitySet="SCARR" Role="ToRole_assoc_F62E05D5A71B3C9367F9F70D6A576E2F"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <Annotations Target="YD20_CDS_WS_01_CDS.YD20_CDS_WS_01_CDS_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+            </Annotations>
+            <Annotations Target="YD20_CDS_WS_01_CDS.YD20_CDS_WS_01_CDS_Entities/YD20_Cds_Ws_01" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.NavigationRestrictions">
+                    <Record>
+                        <PropertyValue Property="RestrictedProperties">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_Carrier"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <atom:link rel="self" href="http://bgissap1.bgissap.co.kr:8000/sap/opu/odata/sap/YD20_CDS_WS_01_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://bgissap1.bgissap.co.kr:8000/sap/opu/odata/sap/YD20_CDS_WS_01_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
